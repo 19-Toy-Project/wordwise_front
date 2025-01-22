@@ -18,13 +18,14 @@ type ButtonProps = ButtonVariantProps & {
 type ButtonVariantProps = VariantProps<typeof buttonVariant>;
 
 const buttonVariant = cva(
-  "rounded-md border font-semibold hover:brightness-90 active:brightness-75",
+  "rounded-md border font-semibold hover:brightness-90 active:brightness-75 text-center",
   {
     variants: {
       intent: {
         primary: "bg-blue-500 border-blue-500",
         danger: "bg-red-500 border-red-500",
         secondary: "bg-yellow-500 border-yellow-500",
+        default: "bg-transparent border-none",
       },
       size: {
         sm: "px-3 py-1.5 text-sm",
@@ -33,10 +34,15 @@ const buttonVariant = cva(
       },
       outline: {
         true: "bg-white",
-        false: "text-white",
+        false: "",
       },
     },
     compoundVariants: [
+      {
+        intent: "default",
+        outline: false,
+        className: "text-black",
+      },
       {
         intent: "primary",
         outline: false,
@@ -54,7 +60,7 @@ const buttonVariant = cva(
       },
     ],
     defaultVariants: {
-      intent: "primary",
+      intent: "default",
       size: "md",
       outline: false,
     },
@@ -69,7 +75,7 @@ const Button = React.forwardRef<
     {
       children,
       isLoading = false,
-      intent = "primary",
+      intent = "default",
       size = "md",
       outline = false,
       leftIcon: LeftIcon,
