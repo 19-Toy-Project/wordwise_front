@@ -7,9 +7,11 @@ export default function WordPage() {
   const { wordId } = useParams<{ wordId: string }>();
   const { data: word } = useWordQuery(wordId);
   return (
-    <div>
-      <h1>{word?.data.word}</h1>
-      <p>{word?.data.meaning}</p>
+    <div className="container mx-auto">
+      <div className="text-center">
+        <h1 className="font-bold text-5xl">{word?.data.word}</h1>
+        <p>{word?.data.meaning}</p>
+      </div>
 
       <div>
         {word?.data.sentences.map((sentence) => (
