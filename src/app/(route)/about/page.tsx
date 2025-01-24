@@ -1,9 +1,7 @@
 function AboutPage() {
   return (
     <div className="container mx-auto p-5">
-      <h1 className="font-bold text-4xl text-center text-gradient bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 animate-gradient bg-clip-text">
-        개요
-      </h1>
+      <h1 className="font-bold text-4xl text-center">개요</h1>
       <div className="flex flex-col gap-5">
         <strong className="text-2xl font-semibold text-indigo-600">
           Wordwise: 영어 발음과 문장 학습을 동시에!

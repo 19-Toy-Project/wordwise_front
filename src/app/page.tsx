@@ -1,5 +1,6 @@
 "use client";
 import { Button } from "@/components/buttons";
+import { levels } from "@/constants/pathname";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { MouseEvent, useEffect, useRef, useState } from "react";
@@ -42,7 +43,7 @@ const HomePage = () => {
 
     // 1초 후에 페이지 이동
     setTimeout(() => {
-      router.push("/levels");
+      router.push(levels);
     }, 1000);
 
     // 애니메이션을 5초 동안 진행

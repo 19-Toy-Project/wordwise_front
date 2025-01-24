@@ -1,5 +1,11 @@
 "use client";
 import { Button } from "@/components/buttons";
+import {
+  advanced,
+  beginner,
+  conversation,
+  intermediate,
+} from "@/constants/pathname";
 
 function LevelPage() {
   return (
@@ -8,10 +14,10 @@ function LevelPage() {
         원하시는 레벨을 선택해주세요 !
       </h1>
       <div className="flex flex-col gap-5">
-        <Button href="/words/1">초급</Button>
-        <Button href="/words/2">중급</Button>
-        <Button href="/words/3">고급</Button>
-        <Button href="/words/4">회화</Button>
+        <Button href={beginner}>초급</Button>
+        <Button href={intermediate}>중급</Button>
+        <Button href={advanced}>고급</Button>
+        <Button href={conversation}>회화</Button>
       </div>
     </div>
   );
