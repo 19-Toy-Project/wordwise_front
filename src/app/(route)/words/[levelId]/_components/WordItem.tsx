@@ -13,7 +13,7 @@ const WordItem = ({ word }: { word: WordType }) => {
   return (
     <Button
       href={`${words}/${levelId}/${word.wordId}`}
-      className="bg-white rounded-md p-3 shadow-md hover:scale-x-105 hover:duration-300 hover:ease-in-out transform cursor-pointer"
+      className="bg-white rounded-md p-3 shadow-md cursor-pointer"
     >
       <span>{word.word}</span>
     </Button>

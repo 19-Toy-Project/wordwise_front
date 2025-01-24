@@ -16,8 +16,8 @@ pnpm prune: 사용되지 않는 패키지를 의존성에서 제거한다.
 
 const HomePage = () => {
   const router = useRouter();
-  const [expand, setExpand] = useState(false); // 버튼 클릭 후 상태 관리
-  const [animate, setAnimate] = useState(false); // 애니메이션 상태
+  const [expand, setExpand] = useState<boolean>(false); // 버튼 클릭 후 상태 관리
+  const [animate, setAnimate] = useState<boolean>(false); // 애니메이션 상태
 
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const radiusRef = useRef(0); // 원의 반지름을 저장할 참조
@@ -27,7 +27,7 @@ const HomePage = () => {
     if (canvas) {
       ctx.clearRect(0, 0, canvas.width, canvas.height); // 캔버스 초기화
       ctx.beginPath();
-      ctx.arc(canvas.width - 300, canvas.height / 2, radius, 0, Math.PI * 2); // 화면 오른쪽 중심에 원 그리기
+      ctx.arc(canvas.width - 200, canvas.height / 2, radius, 0, Math.PI * 2); // 화면 오른쪽 중심에 원 그리기
       ctx.fillStyle = "white";
       ctx.fill();
     }
@@ -83,7 +83,7 @@ const HomePage = () => {
       const canvas = canvasRef.current;
       if (canvas) {
         canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
+        canvas.height = window.innerHeight - 80;
 
         const ctx = canvas.getContext("2d");
         if (ctx) {
@@ -107,13 +107,13 @@ const HomePage = () => {
   }, []);
 
   return (
-    <div className="w-full bg-slate-100 overflow-hidden flex flex-col md:flex-row md:justify-between">
+    <div className="w-full overflow-hidden flex flex-col lg:flex-row lg:justify-between">
       {/* 이미지 영역 */}
-      <div className="absolute top-1/2 left-40 flex justify-center items-center transition-all duration-1000 ease-in-out">
+      <div className="absolute top-1/4 lg:top-1/3 left-5 lg:left-28 flex justify-center items-center transition-all duration-1000 ease-in-out">
         <Image
-          src="/english_kaiwa_man.png"
-          width={500}
-          height={300}
+          src="/english_conversation.png"
+          width={1000}
+          height={800}
           className="object-contain"
           alt="banner"
         />
@@ -127,25 +127,26 @@ const HomePage = () => {
         ></canvas>
 
         <div
-          className={`absolute right-40 top-1/2 transition-all duration-1000 ease-in-out space-y-5 ${
+          className={`absolute right-5 lg:right-28 top-1/2 lg:top-1/3 transition-all duration-1000 ease-in-out space-y-5 ${
             expand ? "opacity-0" : "opacity-100"
           }`}
         >
-          <h1 className="font-extrabold text-[#FFE486] text-right text-7xl sm:text-6xl md:text-7xl transform translate-y-5 animate-fadeInUp delay-200">
+          <h1 className="font-extrabold text-[#8BE5A6] text-right text-5xl sm:text-6xl lg:text-8xl transform translate-y-5 animate-fadeInUp delay-200">
             Let&apos;s
           </h1>
-          <h1 className="font-extrabold text-[#8BE5A6] text-right text-7xl sm:text-6xl md:text-7xl transform translate-y-5 animate-fadeInUp delay-400">
+          <h1 className="font-extrabold text-black text-right text-5xl sm:text-6xl lg:text-8xl transform translate-y-5 animate-fadeInUp delay-400">
             speak
           </h1>
-          <h1 className="font-extrabold text-[#FF70AB] text-right text-7xl sm:text-6xl md:text-7xl transform translate-y-5 animate-fadeInUp delay-600">
-            in English!
+          <h1 className="font-extrabold text-[#FF70AB] text-right text-5xl sm:text-6xl lg:text-8xl transform translate-y-5 animate-fadeInUp delay-600">
+            English
           </h1>
-          <div className="text-center">
+          <div className="text-center space-y-5">
+            <p>Start leaning now!</p>
             <Button
               onClick={handleButtonClick}
-              className="font-bold bg-black text-white rounded-full p-4 transform transition-all hover:animate-scaleInfinite"
+              className="font-bold bg-black text-[#FFE486] rounded-full px-20 py-4 transform transition-all hover:animate-scaleInfinite"
             >
-              Learn Together
+              JOIN NOW
             </Button>
           </div>
         </div>

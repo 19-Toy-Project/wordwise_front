@@ -35,7 +35,7 @@ export default function RootLayout({
       >
         <QueryProvider>
           <ModalProvider>
-            <main className="w-full h-screen">
+            <main>
               <ClientWrapper>{children}</ClientWrapper>
             </main>
           </ModalProvider>

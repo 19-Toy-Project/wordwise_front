@@ -7,7 +7,7 @@ export default function WordPage() {
   const { wordId } = useParams<{ wordId: string }>();
   const { data: word } = useWordQuery(wordId);
   return (
-    <div className="container mx-auto">
+    <div className="bg-white border rounded-md container mx-auto">
       <div className="text-center">
         <h1 className="font-bold text-5xl">{word?.data.word}</h1>
         <p>{word?.data.meaning}</p>
