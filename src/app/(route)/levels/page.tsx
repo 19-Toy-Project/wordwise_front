@@ -1,4 +1,3 @@
-"use client";
 import { Button } from "@/components/buttons";
 import {
   advanced,
@@ -7,7 +6,7 @@ import {
   intermediate,
 } from "@/constants/pathname";
 
-function LevelPage() {
+export default function LevelPage() {
   return (
     <div className="container mx-auto p-5">
       <h1 className="font-bold text-4xl text-center text-gradient bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 animate-gradient bg-clip-text">
@@ -22,5 +21,3 @@ function LevelPage() {
     </div>
   );
 }
-
-export default LevelPage;

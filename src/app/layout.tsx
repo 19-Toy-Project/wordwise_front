@@ -1,4 +1,5 @@
 import { ClientWrapper } from "@/components/ClientWrapper";
+import { ModalProvider } from "@/contexts/modal.context";
 import QueryProvider from "@/providers/QueryProvider";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
@@ -33,9 +34,11 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <QueryProvider>
-          <main className="w-full h-screen">
-            <ClientWrapper>{children}</ClientWrapper>
-          </main>
+          <ModalProvider>
+            <main className="w-full h-screen">
+              <ClientWrapper>{children}</ClientWrapper>
+            </main>
+          </ModalProvider>
         </QueryProvider>
       </body>
     </html>
