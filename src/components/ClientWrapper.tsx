@@ -41,7 +41,7 @@ export const ClientWrapper = ({ children }: PropsWithChildren) => {
         </div>
       </div>
 
-      <div className="w-full">{children}</div>
+      {children}
     </>
   );
 };
