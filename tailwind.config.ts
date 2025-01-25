@@ -26,6 +26,8 @@ export default {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        mainColor: "var(--mainColor)",
+        subColor: "var(--subColor)",
       },
     },
   },

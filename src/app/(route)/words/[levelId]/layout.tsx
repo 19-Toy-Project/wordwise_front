@@ -13,7 +13,7 @@ function WordLayout({ children }: PropsWithChildren) {
   const { levelId } = useParams<{ levelId: string }>();
   return (
     <>
-      <h1 className="font-bold text-lg text-center">{levels[levelId]}</h1>
+      <h2>{levels[levelId]}</h2>
       {children}
     </>
   );
