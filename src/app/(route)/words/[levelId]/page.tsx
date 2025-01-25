@@ -8,7 +8,7 @@ export default function WordLevelPage() {
   const { data: words } = useWordsQuery(levelId);
 
   return (
-    <div className="container mx-auto">
+    <div className="wrapper">
       <div className="flex flex-col gap-3">
         {words?.data.map((word) => (
           <WordItem key={word.wordId} word={word} />

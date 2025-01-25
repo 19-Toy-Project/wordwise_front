@@ -5,12 +5,29 @@
 :root {
   --background: #ffe486;
   --foreground: #171717;
+  --mainColor: #ff70ab;
+  --subColor: #8be5a6;
 }
-
+@layer base {
+  h1 {
+    @apply font-extrabold text-6xl md:text-8xl text-center md:text-right transform translate-y-5 animate-fadeInUp delay-200;
+  }
+  h2 {
+    @apply font-bold text-4xl text-center;
+  }
+  h5 {
+    @apply text-2xl font-semibold text-center;
+  }
+  .wrapper {
+    @apply container mx-auto bg-white border rounded-md p-5;
+  }
+}
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
+    --background: #ffe486;
     --foreground: #ededed;
+    --mainColor: #ff70ab;
+    --subColor: #8be5a6;
   }
 }
 

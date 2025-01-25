@@ -6,11 +6,11 @@ import { IoMenu } from "react-icons/io5";
 import { Button, IconButton } from "./buttons";
 
 export const ClientWrapper = ({ children }: PropsWithChildren) => {
-  const [menuOpen, setMenuOpen] = useState(false); // 메뉴 상태 관리
+  const [menuOpen, setMenuOpen] = useState<boolean>(false); // 메뉴 상태 관리
 
   return (
     <>
-      <div className="sticky top-0 z-20 bg-[#FFE486] w-full h-20 px-5 flex items-center justify-between sm:gap-5">
+      <div className="sticky top-0 z-20 bg-background w-full h-20 px-5 flex items-center justify-between sm:gap-5">
         {/* 로고 */}
         <IconButton
           href={home}
@@ -21,10 +21,9 @@ export const ClientWrapper = ({ children }: PropsWithChildren) => {
 
         {/* 메뉴 버튼 (모바일 전용) */}
         <div className="md:hidden">
-          <IoMenu
-            size={30}
-            className="cursor-pointer"
+          <IconButton
             onClick={() => setMenuOpen((prev) => !prev)}
+            icon={() => <IoMenu color="black" size={30} />}
           />
         </div>
 
@@ -32,7 +31,7 @@ export const ClientWrapper = ({ children }: PropsWithChildren) => {
         <div
           className={`${
             menuOpen ? "block" : "hidden"
-          } md:flex md:items-center md:gap-5 absolute md:static top-20 left-0 w-full bg-[#FFE486] px-5 py-3 md:py-0 transition-all duration-300 ease-in-out`}
+          } md:flex md:items-center md:gap-5 absolute md:static top-20 left-0 w-full bg-background px-5 py-3 md:py-0 transition-all duration-300 ease-in-out`}
         >
           <Button href={about}>ABOUT US</Button>
           <Button>로그인</Button>

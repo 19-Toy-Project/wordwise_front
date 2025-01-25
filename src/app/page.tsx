@@ -41,20 +41,14 @@ const HomePage = () => {
           expand ? "opacity-0" : "opacity-100"
         }`}
       >
-        <h1 className="font-extrabold text-[#8BE5A6] text-6xl md:text-8xl text-center md:text-right transform translate-y-5 animate-fadeInUp delay-200">
-          Let&apos;s
-        </h1>
-        <h1 className="font-extrabold text-black text-6xl md:text-8xl text-center md:text-right transform translate-y-5 animate-fadeInUp delay-400">
-          speak
-        </h1>
-        <h1 className="font-extrabold text-[#FF70AB] text-6xl md:text-8xl text-center md:text-right transform translate-y-5 animate-fadeInUp delay-600">
-          English
-        </h1>
+        <h1 className="text-subColor">Let&apos;s</h1>
+        <h1 className="text-black">speak</h1>
+        <h1 className="text-mainColor">English</h1>
 
         <p>Start learning now!</p>
         <Button
           onClick={handleButtonClick}
-          className="font-bold bg-black text-[#FFE486] rounded-full px-20 py-4 transform transition-all hover:animate-scaleInfinite"
+          className="font-bold bg-black text-background rounded-full px-20 py-4 transform transition-all hover:animate-scaleInfinite"
         >
           JOIN NOW
         </Button>

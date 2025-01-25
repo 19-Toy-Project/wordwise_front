@@ -31,7 +31,7 @@ const SentenceItem = ({ sentence }: { sentence: SentenceType }) => {
   return (
     <div className="flex flex-row justify-between">
       <div>
-        <h5 className="font-bold">{sentence.sentence}</h5>
+        <h5>{sentence.sentence}</h5>
         <p>{sentence.meaning}</p>
       </div>
 

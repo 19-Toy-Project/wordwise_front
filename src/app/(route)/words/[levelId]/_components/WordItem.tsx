@@ -11,10 +11,7 @@ type WordType = {
 const WordItem = ({ word }: { word: WordType }) => {
   const { levelId } = useParams<{ levelId: string }>();
   return (
-    <Button
-      href={`${words}/${levelId}/${word.wordId}`}
-      className="bg-white rounded-md p-3 shadow-md cursor-pointer"
-    >
+    <Button href={`${words}/${levelId}/${word.wordId}`}>
       <span>{word.word}</span>
     </Button>
   );
