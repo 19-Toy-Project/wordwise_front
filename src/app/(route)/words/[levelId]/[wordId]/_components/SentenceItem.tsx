@@ -1,6 +1,7 @@
 "use client";
 import { getSpeech } from "@/app/api/v1/api.tts";
 import { IconButton } from "@/components/buttons";
+import { useModal } from "@/contexts/modal.context";
 import { useEffect } from "react";
 import { AiOutlineSound } from "react-icons/ai";
 import { IoMdMic } from "react-icons/io";
@@ -14,6 +15,7 @@ type SentenceType = {
 };
 
 const SentenceItem = ({ sentence }: { sentence: SentenceType }) => {
+  const { open } = useModal();
   useEffect(() => {
     // 목소리 목록을 미리 로드
     if (window.speechSynthesis.onvoiceschanged !== undefined) {
@@ -39,7 +41,10 @@ const SentenceItem = ({ sentence }: { sentence: SentenceType }) => {
           onClick={handleSoundButton}
           icon={() => <AiOutlineSound color="black" />}
         />
-        <IconButton icon={() => <IoMdMic color="black" />} />
+        <IconButton
+          onClick={() => open(sentence.sentence)}
+          icon={() => <IoMdMic color="black" />}
+        />
         {sentence.wish ? (
           <IconButton icon={() => <TbJewishStarFilled color="black" />} />
         ) : (

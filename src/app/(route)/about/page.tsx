@@ -1,4 +1,4 @@
-function AboutPage() {
+export default function AboutPage() {
   return (
     <div className="container mx-auto p-5">
       <h1 className="font-bold text-4xl text-center">개요</h1>
@@ -56,5 +56,3 @@ function AboutPage() {
     </div>
   );
 }
-
-export default AboutPage;

@@ -10,11 +10,13 @@ export const ClientWrapper = ({ children }: PropsWithChildren) => {
         <IconButton
           href={home}
           icon={() => (
-            <Image src="./svg/Logo.svg" width={70} height={40} alt="Logo" />
+            <Image src="/svg/Logo.svg" width={70} height={40} alt="Logo" />
           )}
         />
         <div className="flex-1"></div>
         <Button href={about}>about us</Button>
+        <Button>로그인</Button>
+        <Button>로그아웃</Button>
         <Button href={mypage}>내 정보</Button>
       </div>
       {children}

@@ -27,7 +27,7 @@ const HomePage = () => {
     if (canvas) {
       ctx.clearRect(0, 0, canvas.width, canvas.height); // 캔버스 초기화
       ctx.beginPath();
-      ctx.arc(canvas.width - 100, canvas.height / 2, radius, 0, Math.PI * 2); // 화면 오른쪽 중심에 원 그리기
+      ctx.arc(canvas.width - 300, canvas.height / 2, radius, 0, Math.PI * 2); // 화면 오른쪽 중심에 원 그리기
       ctx.fillStyle = "white";
       ctx.fill();
     }
@@ -109,9 +109,9 @@ const HomePage = () => {
   return (
     <div className="w-full bg-slate-100 overflow-hidden flex flex-col md:flex-row md:justify-between">
       {/* 이미지 영역 */}
-      <div className="absolute top-1/2 left-0 flex justify-center items-center transition-all duration-1000">
+      <div className="absolute top-1/2 left-40 flex justify-center items-center transition-all duration-1000 ease-in-out">
         <Image
-          src="/svg/Logo.svg"
+          src="/english_kaiwa_man.png"
           width={500}
           height={300}
           className="object-contain"
@@ -120,14 +120,14 @@ const HomePage = () => {
       </div>
 
       {/* 텍스트 및 버튼 영역 */}
-      <div className="transition-all duration-1000 ease-in-out space-y-4">
+      <div className="space-y-4">
         <canvas
           className="transition-all duration-1000 ease-in-out"
           ref={canvasRef}
         ></canvas>
 
         <div
-          className={`absolute right-0 top-1/2 transition-all duration-1000 ease-in-out space-y-5 ${
+          className={`absolute right-40 top-1/2 transition-all duration-1000 ease-in-out space-y-5 ${
             expand ? "opacity-0" : "opacity-100"
           }`}
         >
