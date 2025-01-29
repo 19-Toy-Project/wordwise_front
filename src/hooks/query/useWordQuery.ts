@@ -16,6 +16,12 @@ const useWordQuery = (wordId: string) => {
               meaning: "나는 사과를 먹는다",
               wish: false,
             },
+            {
+              sentenceId: 1,
+              sentence: "I have thrown Apples away.",
+              meaning: "나는 사과들을 버렸다",
+              wish: false,
+            },
           ],
         },
       };

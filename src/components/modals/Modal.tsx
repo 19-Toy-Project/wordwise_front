@@ -1,5 +1,5 @@
-import { IoMdClose } from "react-icons/io";
-import { Button, IconButton } from "../buttons";
+import { IoMdClose, IoMdMic } from "react-icons/io";
+import { IconButton } from "../buttons";
 import BackDrop from "./BackDrop";
 type ModalProps = {
   handleModal: () => void;
@@ -18,7 +18,7 @@ const Modal = ({ handleModal, message }: ModalProps) => {
       </div>
       <div>
         <h5>{message}</h5>
-        <Button>녹음하기</Button>
+        <IconButton icon={() => <IoMdMic color="black" />} />
       </div>
     </BackDrop>
   );
