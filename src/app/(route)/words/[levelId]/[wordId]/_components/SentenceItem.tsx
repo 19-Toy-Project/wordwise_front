@@ -2,6 +2,8 @@
 import { getSpeech } from "@/app/api/v1/api.tts";
 import { IconButton } from "@/components/buttons";
 import { useModal } from "@/contexts/modal.context";
+import { useWishMutation } from "@/hooks/mutation";
+import { useWishQuery } from "@/hooks/query";
 import { useEffect } from "react";
 import { AiOutlineSound } from "react-icons/ai";
 import { IoMdMic } from "react-icons/io";
@@ -15,6 +17,15 @@ type SentenceType = {
 };
 
 const SentenceItem = ({ sentence }: { sentence: SentenceType }) => {
+  const { data: wish } = useWishQuery({
+    wish: sentence.wish,
+    sentenceId: sentence.sentenceId,
+  });
+
+  const addMutation = useWishMutation({
+    wish: sentence.wish,
+    sentenceId: Number(sentence.sentenceId),
+  });
   const { open } = useModal();
   useEffect(() => {
     // 목소리 목록을 미리 로드
@@ -45,11 +56,16 @@ const SentenceItem = ({ sentence }: { sentence: SentenceType }) => {
           onClick={() => open(sentence.sentence)}
           icon={() => <IoMdMic color="black" />}
         />
-        {sentence.wish ? (
-          <IconButton icon={() => <TbJewishStarFilled color="black" />} />
-        ) : (
-          <IconButton icon={() => <TbJewishStar color="black" />} />
-        )}
+        <IconButton
+          onClick={() => addMutation.mutate()}
+          icon={() =>
+            wish?.wish ? (
+              <TbJewishStarFilled color="black" />
+            ) : (
+              <TbJewishStar color="black" />
+            )
+          }
+        />
       </div>
     </div>
   );
