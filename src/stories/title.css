@@ -1,0 +1,38 @@
+h1 {
+  font-weight: 800; /* font-extrabold */
+  font-size: 4rem; /* text-6xl */
+  text-align: center;
+  transform: translateY(1.25rem); /* translate-y-5 */
+  animation: fadeInUp 1s ease-out 0.2s forwards; /* animate-fadeInUp delay-200 */
+}
+
+@media (min-width: 768px) {
+  h1 {
+    font-size: 6rem; /* md:text-8xl */
+    text-align: right; /* md:text-right */
+  }
+}
+
+h2 {
+  font-weight: 700; /* font-bold */
+  font-size: 2.25rem; /* text-4xl */
+  text-align: center;
+}
+
+h5 {
+  font-size: 1.5rem; /* text-2xl */
+  font-weight: 600; /* font-semibold */
+  text-align: center;
+}
+
+/* Keyframes for fadeInUp animation */
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
