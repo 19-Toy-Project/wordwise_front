@@ -8,3 +8,6 @@ export const beginner = levels + "/beginner"; // 초급
 export const intermediate = levels + "/intermediate"; // 중급
 export const advanced = levels + "/advanced"; // 고급
 export const conversation = levels + "/conversation"; // 회화
+
+export const mywish = mypage + "/wish"; //내가 찜한 문장 조회
+export const mystudy = mypage + "/study"; //내가 학습한 차트
