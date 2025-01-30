@@ -4,7 +4,7 @@ export const home = "/"; // 메인 홈
 export const levels = "/levels"; // 레벨 선택
 export const words = "/words"; // 단어 리스트
 
-export const beginner = words + "/beginner"; // 초급
-export const intermediate = words + "/intermediate"; // 중급
-export const advanced = words + "/advanced"; // 고급
-export const conversation = words + "/conversation"; // 회화
+export const beginner = levels + "/beginner"; // 초급
+export const intermediate = levels + "/intermediate"; // 중급
+export const advanced = levels + "/advanced"; // 고급
+export const conversation = levels + "/conversation"; // 회화

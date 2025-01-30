@@ -5,26 +5,16 @@ const useWordQuery = (wordId: string) => {
   return useQuery({
     queryKey: [word, wordId],
     queryFn: async () => {
-      return {
-        data: {
-          word: "apple",
-          meaning: "사과",
-          sentences: [
-            {
-              sentenceId: 0,
-              sentence: "I ate Apple.",
-              meaning: "나는 사과를 먹는다",
-              wish: false,
-            },
-            {
-              sentenceId: 1,
-              sentence: "I have thrown Apples away.",
-              meaning: "나는 사과들을 버렸다",
-              wish: false,
-            },
-          ],
-        },
-      };
+      const response = await fetch(
+        `http://example.com/api/v1/words/${wordId}`,
+        {
+          method: "get",
+          mode: "no-cors",
+        }
+      );
+      const data = await response.json();
+
+      return data;
     },
     enabled: !!wordId,
   });

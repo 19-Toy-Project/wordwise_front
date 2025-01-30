@@ -1,11 +1,13 @@
 "use client";
 import { useWordQuery } from "@/hooks/query";
+import { SentenceType } from "@/types/type";
 import { useParams } from "next/navigation";
 import SentenceItem from "./_components/SentenceItem";
 
 export default function WordPage() {
   const { wordId } = useParams<{ wordId: string }>();
   const { data: word } = useWordQuery(wordId);
+
   return (
     <div className="wrapper">
       <div className="text-center">
@@ -14,7 +16,7 @@ export default function WordPage() {
       </div>
 
       <div>
-        {word?.data.sentences.map((sentence) => (
+        {word?.data.sentences.map((sentence: SentenceType) => (
           <SentenceItem key={sentence.sentenceId} sentence={sentence} />
         ))}
       </div>

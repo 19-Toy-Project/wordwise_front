@@ -5,11 +5,15 @@ const useWishMutation = ({ wish, sentenceId }: WishProps) => {
   const queryClient = useQueryClient();
   const addMutation = useMutation({
     mutationFn: async () => {
-      if (!wish) {
-      } // post
-      else {
-        //delete
-      }
+      const response = await fetch(
+        `http://example.com/api/v1/sentences/wish/${sentenceId}`,
+        {
+          method: "post",
+          mode: "no-cors",
+        }
+      );
+      const data = await response.json();
+      return data;
     },
     onMutate: async () => {
       await queryClient.cancelQueries({ queryKey: [wish, sentenceId] });
