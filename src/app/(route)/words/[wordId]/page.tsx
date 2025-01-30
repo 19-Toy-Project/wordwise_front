@@ -10,9 +10,10 @@ export default function WordPage() {
 
   return (
     <div className="wrapper">
-      <div className="text-center">
+      <div className="mb-4 text-center">
         <h2>{word?.data.word}</h2>
         <p>{word?.data.meaning}</p>
+        <hr />
       </div>
 
       <div>

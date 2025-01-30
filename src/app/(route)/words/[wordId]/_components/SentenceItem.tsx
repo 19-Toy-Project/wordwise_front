@@ -34,10 +34,10 @@ const SentenceItem = ({ sentence }: { sentence: SentenceType }) => {
     getSpeech(sentence.sentence);
   };
   return (
-    <div className="flex flex-row justify-between">
+    <div className="flex flex-col md:flex-row justify-between items-center">
       <div>
         <h5>{sentence.sentence}</h5>
-        <p>{sentence.meaning}</p>
+        <p className="text-center md:text-left">{sentence.meaning}</p>
       </div>
 
       {/* 아이콘 버튼 클릭 시 음성 출력 */}
