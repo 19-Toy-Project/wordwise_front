@@ -1,0 +1,76 @@
+/* 헤더 스타일 */
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background-color: var(
+    --background
+  ); /* --background는 사용자 정의 색상 변수로 가정 */
+  width: 100%;
+  height: 5rem; /* 20단위 (80px) */
+  padding-left: 1.25rem; /* 5단위 (20px) */
+  padding-right: 1.25rem; /* 5단위 (20px) */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+@media (min-width: 640px) {
+  .header {
+    gap: 1.25rem; /* 5단위 (20px) */
+  }
+}
+
+/* 모바일 메뉴 버튼 */
+.menu-button {
+  display: none;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+.menu-button svg {
+  color: black;
+  font-size: 30px;
+}
+
+/* 메뉴 리스트 */
+.menu {
+  display: none;
+  position: absolute;
+  top: 80px;
+  left: 0;
+  width: 100%;
+  background-color: white;
+  padding: 15px;
+  text-align: center;
+  transition: all 0.3s ease-in-out;
+}
+
+.menu.open {
+  display: block;
+}
+.menu.close {
+  display: hidden;
+}
+
+/* 데스크탑 화면에서는 항상 보이게 설정 */
+@media (min-width: 768px) {
+  .menu {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    position: static;
+    width: auto;
+    background: none;
+    padding: 0;
+  }
+
+  .menu.open {
+    display: flex;
+  }
+
+  .menu-button {
+    display: none;
+  }
+}

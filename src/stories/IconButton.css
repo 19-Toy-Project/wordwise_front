@@ -1,0 +1,89 @@
+/* 기본 아이콘 버튼 스타일 */
+.icon-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.icon-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* 버튼 스타일 (intent) */
+.icon-button--primary {
+  background-color: #3b82f6;
+  border-color: #3b82f6;
+  color: white;
+}
+
+.icon-button--secondary {
+  background-color: #facc15;
+  border-color: #facc15;
+  color: black;
+}
+
+.icon-button--danger {
+  background-color: #ef4444;
+  border-color: #ef4444;
+  color: white;
+}
+
+.icon-button--default {
+  background-color: transparent;
+  border: none;
+  color: black;
+}
+
+/* 아웃라인 스타일 */
+.icon-button--outline {
+  background-color: white;
+  border: 1px solid #ccc;
+  color: black;
+}
+
+/* 크기 스타일 */
+.icon-button--sm {
+  width: 32px;
+  height: 32px;
+  font-size: 14px;
+}
+
+.icon-button--md {
+  width: 40px;
+  height: 40px;
+  font-size: 16px;
+}
+
+.icon-button--lg {
+  width: 48px;
+  height: 48px;
+  font-size: 18px;
+}
+
+/* 로딩 아이콘 스타일 */
+.icon-spinner {
+  animation: spin 1s linear infinite;
+}
+/* 기본 상태: 모바일에서 보이게 설정 */
+.icon-button--mobile {
+  display: block;
+}
+
+/* md 이상 화면 크기에서 숨김 */
+@media (min-width: 768px) {
+  .icon-button--mobile {
+    display: none;
+  }
+}
+@keyframes spin {
+  100% {
+    transform: rotate(360deg);
+  }
+}
