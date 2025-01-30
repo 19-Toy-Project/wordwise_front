@@ -6,7 +6,7 @@ export default function LoginPage() {
   const searchParams = useSearchParams();
   const router = useRouter();
 
-  const code = searchParams.get("code");
+  const code = searchParams!.get("code") as string;
   useEffect(() => {
     if (!code) return;
 

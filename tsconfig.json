@@ -27,9 +27,9 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "src/mocks/browser.js",
-    "src/mocks/handler.js",
-    "src/mocks/server.js"
+    "src/mocks/browser.ts",
+    "src/mocks/handler.ts",
+    "src/mocks/server.ts"
   ],
   "exclude": ["node_modules"]
 }
