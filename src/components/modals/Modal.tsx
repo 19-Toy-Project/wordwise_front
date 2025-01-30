@@ -16,9 +16,9 @@ const Modal = ({ handleModal, message }: ModalProps) => {
           icon={() => <IoMdClose color="black" />}
         ></IconButton>
       </div>
-      <div>
+      <div className="text-center">
         <h5>{message}</h5>
-        <IconButton icon={() => <IoMdMic color="black" />} />
+        <IconButton icon={() => <IoMdMic color="black" size={40} />} />
       </div>
     </BackDrop>
   );

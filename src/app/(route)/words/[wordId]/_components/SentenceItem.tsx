@@ -4,17 +4,11 @@ import { IconButton } from "@/components/buttons";
 import { useModal } from "@/contexts/modal.context";
 import { useWishMutation } from "@/hooks/mutation";
 import { useWishQuery } from "@/hooks/query";
+import { SentenceType } from "@/types/type";
 import { useEffect } from "react";
 import { AiOutlineSound } from "react-icons/ai";
 import { IoMdMic } from "react-icons/io";
 import { TbJewishStar, TbJewishStarFilled } from "react-icons/tb";
-
-type SentenceType = {
-  sentenceId: number;
-  sentence: string;
-  meaning: string;
-  wish: boolean;
-};
 
 const SentenceItem = ({ sentence }: { sentence: SentenceType }) => {
   const { data: wish } = useWishQuery({
