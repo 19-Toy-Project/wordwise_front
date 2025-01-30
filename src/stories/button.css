@@ -1,0 +1,62 @@
+.storybook-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.storybook-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* 기본 스타일 */
+.storybook-button--default {
+  background: transparent;
+  color: black;
+}
+
+/* 기본 스타일 (아웃라인) */
+.storybook-button--outline {
+  border: 1px solid gray;
+}
+
+/* primary 버튼 */
+.storybook-button--primary {
+  background: blue;
+  color: white;
+}
+
+/* secondary 버튼 */
+.storybook-button--secondary {
+  background: yellow;
+  color: black;
+}
+
+/* danger 버튼 */
+.storybook-button--danger {
+  background: red;
+  color: white;
+}
+
+/* 크기 스타일 */
+.storybook-button--sm {
+  padding: 0.25rem 0.75rem;
+  font-size: 0.875rem;
+}
+
+.storybook-button--md {
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+}
+
+.storybook-button--lg {
+  padding: 0.75rem 1.25rem;
+  font-size: 1.125rem;
+}
