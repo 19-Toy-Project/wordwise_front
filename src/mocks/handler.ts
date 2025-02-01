@@ -139,4 +139,10 @@ export const handlers = [
       data: sentence,
     });
   }),
+  http.post("http://example.com/api/v1/auth/kakao/login", (req) => {
+    console.log("req = >", req);
+    return HttpResponse.json({
+      success: true,
+    });
+  }),
 ];

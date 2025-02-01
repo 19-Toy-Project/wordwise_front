@@ -1,8 +1,9 @@
 import { ClientWrapper } from "@/components/ClientWrapper";
 import { ModalProvider } from "@/contexts/modal.context";
 
+import QueryProvider from "@/components/providers/QueryProvider";
+import AuthSession from "@/components/providers/session-provider";
 import MswComponent from "@/pages/_app";
-import QueryProvider from "@/providers/QueryProvider";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
@@ -36,13 +37,15 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <MswComponent />
-        <QueryProvider>
-          <ModalProvider>
-            <main>
-              <ClientWrapper>{children}</ClientWrapper>
-            </main>
-          </ModalProvider>
-        </QueryProvider>
+        <AuthSession>
+          <QueryProvider>
+            <ModalProvider>
+              <main>
+                <ClientWrapper>{children}</ClientWrapper>
+              </main>
+            </ModalProvider>
+          </QueryProvider>
+        </AuthSession>
       </body>
     </html>
   );
