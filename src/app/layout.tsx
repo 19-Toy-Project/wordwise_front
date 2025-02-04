@@ -5,6 +5,7 @@ import MswComponent from "@/pages/_app";
 import QueryProvider from "@/providers/QueryProvider";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { Suspense } from "react";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -38,9 +39,11 @@ export default function RootLayout({
         <MswComponent />
         <QueryProvider>
           <ModalProvider>
-            <main>
-              <ClientWrapper>{children}</ClientWrapper>
-            </main>
+            <ClientWrapper>
+              <Suspense fallback={<div>loading...</div>}>
+                <main>{children}</main>
+              </Suspense>
+            </ClientWrapper>
           </ModalProvider>
         </QueryProvider>
       </body>
