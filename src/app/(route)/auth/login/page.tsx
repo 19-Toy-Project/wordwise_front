@@ -28,7 +28,8 @@ export default function LoginPage() {
         const data = await response.json();
         console.log("로그인 성공:", data);
 
-        //router.push("/"); // 로그인 성공 시 메인 페이지로 이동
+        document.cookie = `accessToken=${data.accessToken}; path=/; Secure; SameSite=Strict;`;
+        router.push("/"); // 로그인 성공 시 메인 페이지로 이동
       } catch (error) {
         console.error(error);
       }

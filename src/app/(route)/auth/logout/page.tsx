@@ -8,10 +8,15 @@ export default function LogoutPage() {
   useEffect(() => {
     const handleLogout = async () => {
       try {
-        const response = await fetch("/api/v1/auth/logout", {
-          method: "POST",
-          headers: { Authrization: `Bearer ${"kakaologin_accesstoken_value"}` },
-        });
+        const response = await fetch(
+          "http://localhost:8080/api/v1/auth/logout",
+          {
+            method: "POST",
+            headers: {
+              Authrization: `Bearer ${"kakaologin_accesstoken_value"}`,
+            },
+          }
+        );
         if (!response.ok) throw new Error("로그아웃 실패");
         const data = await response.json();
         console.log("로그아웃 성공: ", data);

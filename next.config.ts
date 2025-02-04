@@ -1,16 +1,14 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
   async rewrites() {
     return [
       {
-        source: "/api/v1/:path*/",
-        destination: "http://localhost:8080/:path*/",
+        source: "/api/v1/:path*", // ✅ trailing slash 제거
+        destination: "http://localhost:8080/api/v1/:path*", // ✅ 정확한 경로 지정
       },
     ];
   },
-  trailingSlash: true,
 };
 
 export default nextConfig;

@@ -7,7 +7,7 @@ import { IoMenu } from "react-icons/io5";
 import { Button, IconButton } from "./buttons";
 
 const KAKAO_LOGIN_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.NEXT_PUBLIC_KAKAO_CLIENT_ID}&redirect_uri=	
-${process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URL}&response_type=code&scope=profile_nickname`;
+${process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URL}&response_type=code`;
 
 export const ClientWrapper = ({ children }: PropsWithChildren) => {
   const router = useRouter();
