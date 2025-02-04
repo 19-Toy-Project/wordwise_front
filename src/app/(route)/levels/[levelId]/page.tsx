@@ -11,7 +11,8 @@ const levels: Record<string, string> = {
   conversation: "회화",
 };
 export default function LevelPage() {
-  const { levelId } = useParams<{ levelId: string }>();
+  const params = useParams<{ levelId: string }>();
+  const levelId = params?.levelId ?? "";
   const { data: words } = useWordsQuery(levelId);
   return (
     <>

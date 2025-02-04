@@ -5,7 +5,8 @@ import { useParams } from "next/navigation";
 import SentenceItem from "./_components/SentenceItem";
 
 export default function WordPage() {
-  const { wordId } = useParams<{ wordId: string }>();
+  const params = useParams<{ wordId: string }>();
+  const wordId = params?.wordId ?? "";
   const { data: word } = useWordQuery(wordId);
 
   return (
