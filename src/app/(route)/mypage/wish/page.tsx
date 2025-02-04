@@ -2,13 +2,13 @@ import { SentenceType } from "@/types/type";
 
 export default async function WishPage() {
   const response = await fetch(
-    `http://localhost:3000/api/v1/users/wish/sentence?page=${0}&size=${1}`,
+    `http://localhost:8080/api/v1/users/wish/sentence?page=${0}&size=${1}`,
     {
       method: "GET",
     }
   );
   const { data: wishSentence } = await response.json();
-  
+
   if (wishSentence.sentences.length > 0) {
     return (
       <div>
