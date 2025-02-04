@@ -6,11 +6,8 @@ import { PropsWithChildren, useState } from "react";
 import { IoMenu } from "react-icons/io5";
 import { Button, IconButton } from "./buttons";
 
-const KAKAO_LOGIN_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.NEXT_PUBLIC_KAKAO_JAVASCRIPT_KEY}&redirect_uri=	
+const KAKAO_LOGIN_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.NEXT_PUBLIC_KAKAO_CLIENT_ID}&redirect_uri=	
 ${process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URL}&response_type=code&scope=profile_nickname`;
-
-const KAKAO_LOGOUT_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.NEXT_PUBLIC_KAKAO_JAVASCRIPT_KEY}&redirect_uri=	
-${process.env.NEXT_PUBLIC_KAKAO_LOGOUT_REDIRECT_URL}&response_type=code&scope=profile_nickname`;
 
 export const ClientWrapper = ({ children }: PropsWithChildren) => {
   const router = useRouter();
@@ -19,9 +16,7 @@ export const ClientWrapper = ({ children }: PropsWithChildren) => {
   const handleLogin = () => {
     router.push(KAKAO_LOGIN_URL);
   };
-  const handleLogout = () => {
-    router.push(KAKAO_LOGOUT_URL);
-  };
+  const handleLogout = () => {};
   return (
     <>
       <div className="sticky top-0 z-20 bg-background w-full h-20 px-5 flex items-center justify-between sm:gap-5">
