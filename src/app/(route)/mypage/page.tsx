@@ -1,5 +1,5 @@
 export default async function UserPage() {
-  const response = await fetch("http://localhost:3000/api/v1/users/profiles", {
+  const response = await fetch("http://localhost:8080/api/v1/users/profiles", {
     method: "GET",
   });
   const { data: user } = await response.json();

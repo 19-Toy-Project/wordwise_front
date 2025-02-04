@@ -1,5 +1,5 @@
 export default async function StudyPage() {
-  const response = await fetch("http://localhost:3000/api/v1/users/score", {
+  const response = await fetch("http://localhost:8080/api/v1/users/score", {
     method: "get",
   });
   const { data: study } = await response.json();
