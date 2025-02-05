@@ -11,14 +11,16 @@ const KAKAO_LOGIN_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${pro
 ${process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URL}&response_type=code`;
 
 export const ClientWrapper = ({ children }: PropsWithChildren) => {
-  const { cookie } = useCookie();
+  const { cookie, logout } = useCookie();
   const router = useRouter();
   const [menuOpen, setMenuOpen] = useState<boolean>(false); // 메뉴 상태 관리
 
   const handleLogin = () => {
     router.push(KAKAO_LOGIN_URL);
   };
-  const handleLogout = () => {};
+  const handleLogout = () => {
+    logout();
+  };
   return (
     <>
       <div className="sticky top-0 z-20 bg-background w-full h-20 px-5 flex items-center justify-between sm:gap-5">
