@@ -1,5 +1,6 @@
 "use client";
 import { about, home, mypage } from "@/constants/pathname";
+import { useCookie } from "@/contexts/cookie.context";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { PropsWithChildren, useState } from "react";
@@ -10,13 +11,16 @@ const KAKAO_LOGIN_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${pro
 ${process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URL}&response_type=code`;
 
 export const ClientWrapper = ({ children }: PropsWithChildren) => {
+  const { cookie, logout } = useCookie();
   const router = useRouter();
   const [menuOpen, setMenuOpen] = useState<boolean>(false); // 메뉴 상태 관리
 
   const handleLogin = () => {
     router.push(KAKAO_LOGIN_URL);
   };
-  const handleLogout = () => {};
+  const handleLogout = () => {
+    logout();
+  };
   return (
     <>
       <div className="sticky top-0 z-20 bg-background w-full h-20 px-5 flex items-center justify-between sm:gap-5">
@@ -43,9 +47,14 @@ export const ClientWrapper = ({ children }: PropsWithChildren) => {
           } md:flex md:items-center md:gap-5 absolute md:static top-20 left-0 w-full bg-background px-5 py-3 md:py-0 transition-all duration-300 ease-in-out`}
         >
           <Button href={about}>ABOUT US</Button>
-          <Button onClick={handleLogin}>로그인</Button>
-          <Button onClick={handleLogout}>로그아웃</Button>
-          <Button href={mypage}>내 정보</Button>
+          {cookie ? (
+            <>
+              <Button onClick={handleLogout}>로그아웃</Button>
+              <Button href={mypage}>내 정보</Button>
+            </>
+          ) : (
+            <Button onClick={handleLogin}>로그인</Button>
+          )}
         </div>
       </div>
 
