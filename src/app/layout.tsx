@@ -1,6 +1,7 @@
 import { ClientWrapper } from "@/components/ClientWrapper";
 import { ModalProvider } from "@/contexts/modal.context";
 
+import { CookieProvider } from "@/contexts/cookie.context";
 import MswComponent from "@/pages/_app";
 import QueryProvider from "@/providers/QueryProvider";
 import type { Metadata } from "next";
@@ -37,15 +38,17 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <MswComponent />
-        <QueryProvider>
-          <ModalProvider>
-            <ClientWrapper>
-              <Suspense fallback={<div>loading...</div>}>
-                <main>{children}</main>
-              </Suspense>
-            </ClientWrapper>
-          </ModalProvider>
-        </QueryProvider>
+        <CookieProvider>
+          <QueryProvider>
+            <ModalProvider>
+              <ClientWrapper>
+                <Suspense fallback={<div>loading...</div>}>
+                  <main>{children}</main>
+                </Suspense>
+              </ClientWrapper>
+            </ModalProvider>
+          </QueryProvider>
+        </CookieProvider>
       </body>
     </html>
   );

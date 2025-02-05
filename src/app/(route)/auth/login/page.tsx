@@ -1,8 +1,10 @@
 "use client";
+import { useCookie } from "@/contexts/cookie.context";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 
 export default function LoginPage() {
+  const { login } = useCookie();
   const searchParams = useSearchParams();
   const router = useRouter();
 
@@ -23,12 +25,8 @@ export default function LoginPage() {
             body: JSON.stringify({ code: code }),
           }
         );
-
-        if (!response.ok) throw new Error("로그인 실패");
         const data = await response.json();
-        console.log("로그인 성공:", data);
-
-        document.cookie = `accessToken=${data.accessToken}; path=/; Secure; SameSite=Strict;`;
+        login(data.data.split(" ")[1]);
         router.push("/"); // 로그인 성공 시 메인 페이지로 이동
       } catch (error) {
         console.error(error);
