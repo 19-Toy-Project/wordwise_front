@@ -1,15 +1,19 @@
 import { words } from "@/constants/queryKey";
 import { useQuery } from "@tanstack/react-query";
 
-const useWordsQuery = (levelId: string) => {
+interface Words {
+  levelId: string;
+  page: number;
+  size: number;
+}
+const useWordsQuery = ({ levelId, page, size }: Words) => {
   return useQuery({
     queryKey: [words, levelId],
     queryFn: async () => {
       const response = await fetch(
-        `http://example.com/api/v1/words/level/${levelId}`,
+        `http://localhost:8080/api/v1/words?page=${page}&size=${size}&type=${levelId}`,
         {
-          method: "get",
-          mode: "no-cors",
+          method: "GET",
         }
       );
       const data = await response.json();

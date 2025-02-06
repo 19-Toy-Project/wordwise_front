@@ -6,14 +6,13 @@ const useWordQuery = (wordId: string) => {
     queryKey: [word, wordId],
     queryFn: async () => {
       const response = await fetch(
-        `http://example.com/api/v1/words/${wordId}`,
+        `http://localhost:8080/api/v1/words/${wordId}`,
         {
-          method: "get",
-          mode: "no-cors",
+          method: "GET",
         }
       );
       const data = await response.json();
-
+      console.log(data);
       return data;
     },
     enabled: !!wordId,

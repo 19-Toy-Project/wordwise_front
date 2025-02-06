@@ -5,7 +5,7 @@ import Button from "../../../../../components/buttons/Button";
 const WordItem = ({ word }: { word: WordType }) => {
   return (
     <Button href={`${words}/${word.wordId}`}>
-      <span>{word.word}</span>
+      <span>{word.word_en}</span>
     </Button>
   );
 };
