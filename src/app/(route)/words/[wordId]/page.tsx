@@ -13,7 +13,11 @@ export default function WordPage() {
     <div className="wrapper">
       <div className="mb-4 text-center">
         <h2>{word?.data.word}</h2>
-        <p>{word?.data.meaning}</p>
+        <p>
+          {word?.data.word_kr.map((word_kr: string) => (
+            <span>{word_kr}</span>
+          ))}
+        </p>
         <hr />
       </div>
 

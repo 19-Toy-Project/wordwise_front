@@ -1,5 +1,6 @@
 "use client";
 import { SentenceType } from "@/types/type";
+import { useState } from "react";
 import { IoMdClose, IoMdMic } from "react-icons/io";
 import { IconButton } from "../buttons";
 import BackDrop from "./BackDrop";
@@ -9,6 +10,8 @@ type ModalProps = {
 };
 
 const Modal = ({ handleModal, sentence }: ModalProps) => {
+  const [isRecording, setIsRecording] = useState<boolean>(false);
+  const handleRecord = () => {};
   return (
     <BackDrop>
       <div className="flex flex-row justify-between">
@@ -21,7 +24,11 @@ const Modal = ({ handleModal, sentence }: ModalProps) => {
       <div className="text-center">
         <h5>{sentence.sentence}</h5>
         <p>{sentence.sentence_kr}</p>
-        <IconButton icon={() => <IoMdMic color="black" size={40} />} />
+
+        <IconButton
+          onClick={handleRecord}
+          icon={() => <IoMdMic color="black" size={40} />}
+        />
       </div>
     </BackDrop>
   );
