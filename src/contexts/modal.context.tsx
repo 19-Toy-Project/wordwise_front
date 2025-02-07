@@ -1,10 +1,11 @@
 "use client";
 
+import { SentenceType } from "@/types/type";
 import { createContext, PropsWithChildren, useContext, useState } from "react";
 import Modal from "./../components/modals/Modal";
 
 type InitialValueType = {
-  open: (options: string) => void;
+  open: (options: SentenceType) => void;
   close: () => void;
 };
 const initialValue: InitialValueType = {
@@ -17,10 +18,10 @@ const ModalContext = createContext(initialValue);
 export const useModal = () => useContext(ModalContext);
 
 export function ModalProvider({ children }: PropsWithChildren) {
-  const [modalOptions, setModalOptions] = useState<string | null>(null);
+  const [modalOptions, setModalOptions] = useState<SentenceType | null>(null);
 
   const value = {
-    open: (options: string) => {
+    open: (options: SentenceType) => {
       setModalOptions(options);
     },
     close: () => {
@@ -32,7 +33,7 @@ export function ModalProvider({ children }: PropsWithChildren) {
     <ModalContext.Provider value={value}>
       {children}
       {modalOptions && (
-        <Modal handleModal={() => value.close()} message={modalOptions} />
+        <Modal handleModal={() => value.close()} sentence={modalOptions} />
       )}
     </ModalContext.Provider>
   );

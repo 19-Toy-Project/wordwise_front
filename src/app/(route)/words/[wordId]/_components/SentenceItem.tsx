@@ -2,24 +2,20 @@
 import { getSpeech } from "@/app/api/v1/api.tts";
 import { IconButton } from "@/components/buttons";
 import { useModal } from "@/contexts/modal.context";
-import { useWishMutation } from "@/hooks/mutation";
-import { useWishQuery } from "@/hooks/query";
+
 import { SentenceType } from "@/types/type";
 import { useEffect } from "react";
 import { AiOutlineSound } from "react-icons/ai";
 import { IoMdMic } from "react-icons/io";
 import { TbJewishStar, TbJewishStarFilled } from "react-icons/tb";
 
-const SentenceItem = ({ sentence }: { sentence: SentenceType }) => {
-  const { data: wish } = useWishQuery({
-    wish: sentence.wish,
-    sentenceId: sentence.sentenceId,
-  });
-
-  const addMutation = useWishMutation({
-    wish: sentence.wish,
-    sentenceId: Number(sentence.sentenceId),
-  });
+const SentenceItem = ({
+  sentence,
+  handleWish,
+}: {
+  sentence: SentenceType;
+  handleWish: () => void;
+}) => {
   const { open } = useModal();
   useEffect(() => {
     // 목소리 목록을 미리 로드
@@ -33,11 +29,12 @@ const SentenceItem = ({ sentence }: { sentence: SentenceType }) => {
     //throttle 기법 추가
     getSpeech(sentence.sentence);
   };
+
   return (
     <div className="flex flex-col md:flex-row justify-between items-center">
       <div>
         <h5>{sentence.sentence}</h5>
-        <p className="text-center md:text-left">{sentence.meaning}</p>
+        <p className="text-center md:text-left">{sentence.sentence_kr}</p>
       </div>
 
       {/* 아이콘 버튼 클릭 시 음성 출력 */}
@@ -47,13 +44,13 @@ const SentenceItem = ({ sentence }: { sentence: SentenceType }) => {
           icon={() => <AiOutlineSound color="black" />}
         />
         <IconButton
-          onClick={() => open(sentence.sentence)}
+          onClick={() => open(sentence)}
           icon={() => <IoMdMic color="black" />}
         />
         <IconButton
-          onClick={() => addMutation.mutate()}
+          onClick={handleWish}
           icon={() =>
-            wish?.wish ? (
+            sentence.wish ? (
               <TbJewishStarFilled color="black" />
             ) : (
               <TbJewishStar color="black" />
