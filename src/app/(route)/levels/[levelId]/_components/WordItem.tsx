@@ -6,6 +6,9 @@ const WordItem = ({ word }: { word: WordType }) => {
   return (
     <Button href={`${words}/${word.wordId}`}>
       <span>{word.word_en}</span>
+      {word.word_krs.map((word: string) => (
+        <span key={word}>{word}</span>
+      ))}
     </Button>
   );
 };
