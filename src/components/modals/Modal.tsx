@@ -1,5 +1,6 @@
 "use client";
 
+import { useRecordMutation } from "@/hooks/mutation";
 import { SentenceType } from "@/types/type";
 import { useEffect, useState } from "react";
 import { IoMdClose, IoMdMic, IoMdMicOff } from "react-icons/io";
@@ -17,6 +18,8 @@ const Modal = ({ handleModal, sentence }: ModalProps) => {
   const [onRec, setOnRec] = useState<boolean>(true);
   const [audioUrl, setAudioUrl] = useState<string | null>(null);
 
+  const [score, setScore] = useState<number>(-1);
+  const addMutation = useRecordMutation();
   useEffect(() => {
     return () => {
       if (stream) {
@@ -43,10 +46,19 @@ const Modal = ({ handleModal, sentence }: ModalProps) => {
       };
 
       mediaRecorder.onstop = () => {
-        const audioBlob = new Blob(audioChunks, { type: "audio/webm" });
+        const audioBlob = new Blob(audioChunks, { type: "audio/wav" });
+        const audioFile = new File([audioBlob], "recording.wav", {
+          type: "audio/wav",
+        });
+
         const audioUrl = URL.createObjectURL(audioBlob);
         setAudioUrl(audioUrl);
         setOnRec(true);
+
+        addMutation.mutateAsync({
+          sentenceId: sentence.sentenceId,
+          file: audioFile,
+        });
       };
 
       setTimeout(() => {
@@ -82,17 +94,22 @@ const Modal = ({ handleModal, sentence }: ModalProps) => {
             브라우저가 오디오 태그를 지원하지 않습니다.
           </audio>
         )}
+        {score > 0 && (
+          <h1 className={score > 50 ? "text-subColor" : "text-mainColor"}>
+            {score}
+          </h1>
+        )}
+        <IconButton
+          onClick={onRec ? onRecAudio : offRecAudio}
+          icon={() =>
+            onRec ? (
+              <IoMdMic color="black" size={40} />
+            ) : (
+              <IoMdMicOff color="black" size={40} />
+            )
+          }
+        />
       </div>
-      <IconButton
-        onClick={onRec ? onRecAudio : offRecAudio}
-        icon={() =>
-          onRec ? (
-            <IoMdMic color="black" size={40} />
-          ) : (
-            <IoMdMicOff color="black" size={40} />
-          )
-        }
-      />
     </BackDrop>
   );
 };
