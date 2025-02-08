@@ -1,16 +1,16 @@
 "use client";
-import { useCookie } from "@/contexts/cookie.context";
 import { useWordQuery } from "@/hooks/query";
 import { SentenceType } from "@/types/type";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 
 import { useWordMutation } from "@/hooks/mutation";
+import { useCookies } from "next-client-cookies";
 import SentenceItem from "./_components/SentenceItem";
 
 export default function WordPage() {
   const params = useParams<{ wordId: string }>();
-  const { cookie } = useCookie();
-  const router = useRouter();
+  const cookies = useCookies();
+  const accessToken = cookies.get("accessToken") ?? "";
   const wordId = params?.wordId ?? "";
   const { data: word } = useWordQuery(wordId);
   const addMutation = useWordMutation({
@@ -18,13 +18,13 @@ export default function WordPage() {
   });
   const handleWish = (sentenceId: number, wish: boolean) => {
     console.log("=>=>=>", sentenceId, wish);
-    if (cookie && word) {
+    if (accessToken && word) {
       addMutation.mutate({
         sentenceId: sentenceId,
         wish: wish,
       });
     } else {
-      router.push("/");
+      alert("로그인이 필요한 서비스입니다");
     }
   };
   return (

@@ -19,7 +19,6 @@ const useWordQuery = (wordId: string) => {
         }
       );
       const data = await response.json();
-      console.log(data);
       return data;
     },
     enabled: !!wordId,

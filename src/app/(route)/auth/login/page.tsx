@@ -26,8 +26,10 @@ export default function LoginPage() {
           }
         );
         const data = await response.json();
+
         login(data.data.split(" ")[1]);
-        router.push("/"); // 로그인 성공 시 메인 페이지로 이동
+
+        router.push("/");
       } catch (error) {
         console.error(error);
       }
