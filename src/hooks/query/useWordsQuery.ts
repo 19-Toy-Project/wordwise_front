@@ -20,7 +20,6 @@ const useWordsQuery = ({ page, size, levelId }: WordType) => {
         }
       );
       const data = await response.json();
-      console.log(data);
       return data;
     },
     enabled: !!levelId, // `levelId`가 존재할 때만 실행
