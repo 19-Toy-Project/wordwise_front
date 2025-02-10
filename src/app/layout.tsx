@@ -4,7 +4,6 @@ import { ModalProvider } from "@/contexts/modal.context";
 import { CookieProvider } from "@/contexts/cookie.context";
 import QueryProvider from "@/providers/QueryProvider";
 import type { Metadata } from "next";
-import { CookiesProvider } from "next-client-cookies/server";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Suspense } from "react";
 import "./globals.css";
@@ -37,19 +36,17 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <CookiesProvider>
-          <CookieProvider>
-            <QueryProvider>
-              <ModalProvider>
-                <ClientWrapper>
-                  <Suspense fallback={<div>loading...</div>}>
-                    <main>{children}</main>
-                  </Suspense>
-                </ClientWrapper>
-              </ModalProvider>
-            </QueryProvider>
-          </CookieProvider>
-        </CookiesProvider>
+        <CookieProvider>
+          <QueryProvider>
+            <ModalProvider>
+              <ClientWrapper>
+                <Suspense fallback={<div>loading...</div>}>
+                  <main>{children}</main>
+                </Suspense>
+              </ClientWrapper>
+            </ModalProvider>
+          </QueryProvider>
+        </CookieProvider>
       </body>
     </html>
   );

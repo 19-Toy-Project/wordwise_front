@@ -3,22 +3,20 @@ import { useWordQuery } from "@/hooks/query";
 import { SentenceType } from "@/types/type";
 import { useParams } from "next/navigation";
 
+import { useCookie } from "@/contexts/cookie.context";
 import { useWordMutation } from "@/hooks/mutation";
-import { useCookies } from "next-client-cookies";
 import SentenceItem from "./_components/SentenceItem";
 
 export default function WordPage() {
   const params = useParams<{ wordId: string }>();
-  const cookies = useCookies();
-  const accessToken = cookies.get("accessToken") ?? "";
+  const { cookie } = useCookie();
   const wordId = params?.wordId ?? "";
   const { data: word } = useWordQuery(wordId);
   const addMutation = useWordMutation({
     wordId: wordId,
   });
   const handleWish = (sentenceId: number, wish: boolean) => {
-    console.log("=>=>=>", sentenceId, wish);
-    if (accessToken && word) {
+    if (cookie && word) {
       addMutation.mutate({
         sentenceId: sentenceId,
         wish: wish,
