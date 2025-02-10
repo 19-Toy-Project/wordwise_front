@@ -1,18 +1,23 @@
+import { useCookie } from "@/contexts/cookie.context";
 import { useMutation } from "@tanstack/react-query";
 
 type RecordType = {
   sentenceId: number;
   file: File;
 };
-const useRecordMutation = ({ sentenceId, file }: RecordType) => {
+const useRecordMutation = () => {
+  const { cookie } = useCookie();
   const addMutation = useMutation({
-    mutationFn: async () => {
+    mutationFn: async ({ sentenceId, file }: RecordType) => {
       const response = await fetch(
         `http://localhost:8080/api/v1/sentences/record/${sentenceId}`,
         {
           method: "POST",
-          headers: { "Content-Type": "application/json;" },
-          body: JSON.stringify({ file: file }),
+          headers: {
+            Authorization: `Bearer ${cookie}`,
+            "Content-Type": "multipart/form-data",
+          },
+          body: file,
         }
       );
 
