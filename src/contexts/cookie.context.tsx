@@ -1,6 +1,13 @@
 "use client";
 
-import { createContext, PropsWithChildren, useContext, useState } from "react";
+import { deleteCookie, getCookie, setCookie } from "@/constants/cookie";
+import {
+  createContext,
+  PropsWithChildren,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 
 type InitialValueType = {
   cookie: string | null;
@@ -18,16 +25,22 @@ const CookieContext = createContext(initialValue);
 export const useCookie = () => useContext(CookieContext);
 
 export function CookieProvider({ children }: PropsWithChildren) {
-  const [cookie, setCookie] = useState<string | null>(null);
+  const [accessToken, setAccessToken] = useState<string | null>(null);
+
+  useEffect(() => {
+    const cookie = getCookie("accessToken") ?? null;
+    setAccessToken(cookie);
+  }, []);
 
   const value = {
-    cookie,
+    cookie: accessToken,
     login: (accessToken: string) => {
-      setCookie(accessToken);
-      console.log(accessToken);
+      setCookie("accessToken", accessToken, 1);
+      setAccessToken(accessToken);
     },
     logout: () => {
-      setCookie(null);
+      deleteCookie("accessToken");
+      setAccessToken(null);
     },
   };
 
