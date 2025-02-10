@@ -34,7 +34,7 @@ const SentenceItem = ({
     <div className="flex flex-col md:flex-row justify-between items-center">
       <div>
         <h5>{sentence.sentence}</h5>
-        <p className="text-center md:text-left">{sentence.sentence_kr}</p>
+        <p>{sentence.sentence_kr}</p>
       </div>
 
       {/* 아이콘 버튼 클릭 시 음성 출력 */}
