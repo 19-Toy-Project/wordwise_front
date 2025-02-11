@@ -15,18 +15,19 @@ export default async function WishPage() {
     }
   );
   const { data: wishSentence } = await response.json();
-  console.log(wishSentence);
+
   if (wishSentence.content.length > 0) {
     return (
-      <div>
+      <div className="flex flex-col">
         {wishSentence.content.map(
           (sentence: SentenceType & { wordId: number }) => (
             <Button
+              intent="white"
               href={`/words/${sentence.wordId}`}
               key={sentence.sentenceId}
             >
-              <strong>{sentence.sentence}</strong>{" "}
-              <span>{sentence.sentence_kr}</span>
+              <p>{sentence.sentence}</p>
+              <p>{sentence.sentence_kr}</p>
             </Button>
           )
         )}

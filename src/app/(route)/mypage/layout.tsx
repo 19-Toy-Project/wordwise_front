@@ -11,8 +11,8 @@ export default function MyPageLayout({ children }: PropsWithChildren) {
     alert("준비중입니다");
   };
   return (
-    <div className="wrapper grid grid-cols-1 grid-rows-2 md:grid-cols-[1fr_2fr] md:grid-rows-1 gap-5">
-      <nav className="flex flex-col">
+    <div className="wrapper flex flex-col md:flex-row gap-5">
+      <nav className="flex flex-col w-full md:w-1/3">
         <Button
           href={mypage}
           className={`hover:bg-background hover:font-bold text-center p-3 ${
@@ -44,7 +44,7 @@ export default function MyPageLayout({ children }: PropsWithChildren) {
           회원탈퇴
         </Button>
       </nav>
-      <div className="wrapper">{children}</div>
+      <div className="w-full md:w-2/3">{children}</div>
     </div>
   );
 }

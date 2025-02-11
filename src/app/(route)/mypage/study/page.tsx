@@ -1,4 +1,5 @@
 import { cookies } from "next/headers";
+import Chart from "./_components/Chart";
 
 export default async function StudyPage() {
   const cookieStore = await cookies();
@@ -11,15 +12,11 @@ export default async function StudyPage() {
     },
   });
   const { data: study } = await response.json();
-
+  console.log(study);
   return (
     <div>
       내가 학습한 문장 조회 차트
-      {study.content.length > 0 ? (
-        <div>목록 구현 예정</div>
-      ) : (
-        <div>학습한 목록이 없습니다</div>
-      )}
+      <Chart studies={study.content.length > 0 ? study.content : []} />
     </div>
   );
 }
