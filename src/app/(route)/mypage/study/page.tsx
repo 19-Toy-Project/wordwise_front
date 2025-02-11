@@ -12,7 +12,6 @@ export default async function StudyPage() {
     },
   });
   const { data: study } = await response.json();
-  console.log(study);
   return (
     <div>
       내가 학습한 문장 조회 차트

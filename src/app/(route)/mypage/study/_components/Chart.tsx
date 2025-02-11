@@ -64,25 +64,10 @@ export default function Chart({ studies }: { studies: MajorProps }) {
     labels,
     datasets: [
       {
-        label: "횟수",
-        data: getDataByType("totalCount"),
-        borderColor: "#8be5a6",
-        backgroundColor: "rgba(99, 255, 107, 0.5)",
-        tension: 0.1,
-      },
-      {
         label: "평균",
         data: getDataByType("average"),
         borderColor: "#ff70ab",
         backgroundColor: "rgba(255, 99, 132, 0.5)",
-        tension: 0.1,
-      },
-
-      {
-        label: "점수",
-        data: getDataByType("totalScore"),
-        borderColor: "#ffe486",
-        backgroundColor: "rgba(255, 244, 95, 0.5)",
         tension: 0.1,
       },
     ],
