@@ -26,6 +26,7 @@ const buttonVariant = cva(
         danger: "bg-red-500 border-red-500",
         secondary: "bg-yellow-500 border-yellow-500",
         default: "bg-transparent border-none",
+        white: "bg-white border-none",
       },
       size: {
         sm: "px-3 py-1.5 text-sm",
