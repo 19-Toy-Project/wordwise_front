@@ -3,6 +3,7 @@
 import { useCookie } from "@/contexts/cookie.context";
 import { SentenceType } from "@/types/type";
 import { useEffect, useRef, useState } from "react";
+import { AiOutlinePause } from "react-icons/ai";
 import { FaPlay } from "react-icons/fa";
 import { IoMdClose, IoMdMic, IoMdMicOff } from "react-icons/io";
 import { IconButton } from "../buttons";
@@ -20,7 +21,8 @@ const Modal = ({ handleModal, sentence }: ModalProps) => {
   const [score, setScore] = useState<number>(-1);
   const { cookie } = useCookie();
   const audioRef = useRef<HTMLAudioElement | null>(null);
-
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isPlaying, setIsPlaying] = useState<boolean>(false);
   useEffect(() => {
     return () => {
       if (stream) {
@@ -53,27 +55,40 @@ const Modal = ({ handleModal, sentence }: ModalProps) => {
 
       mediaRecorder.onstop = async () => {
         const audioBlob = new Blob(audioChunks, { type: "audio/wav" });
-        const audioUrl = URL.createObjectURL(audioBlob);
+        if (audioUrl) {
+          URL.revokeObjectURL(audioUrl);
+        }
+        const newAudioUrl = URL.createObjectURL(audioBlob);
 
         const formData = new FormData();
         formData.append("file", audioBlob);
-        setAudioUrl(audioUrl);
+        setAudioUrl(newAudioUrl);
+
+        if (audioRef.current) {
+          audioRef.current.src = newAudioUrl;
+        }
+
         setOnRec(true);
+        setIsLoading(true);
+        try {
+          const response = await fetch(
+            `http://localhost:8080/api/v1/sentences/record/${sentence.sentenceId}`,
+            {
+              method: "POST",
+              headers: {
+                Authorization: `Bearer ${cookie}`,
+              },
+              body: formData,
+            }
+          );
 
-        const response = await fetch(
-          `http://localhost:8080/api/v1/sentences/record/${sentence.sentenceId}`,
-          {
-            method: "POST",
-            headers: {
-              Authorization: `Bearer ${cookie}`,
-            },
-            body: formData,
-          }
-        );
-
-        const data = await response.json();
-
-        setScore(data.data.score);
+          const data = await response.json();
+          setScore(Number(data.data.score));
+        } catch (error) {
+          console.error("점수 분석 오류: ", error);
+        } finally {
+          setIsLoading(false);
+        }
       };
 
       setTimeout(() => {
@@ -92,7 +107,13 @@ const Modal = ({ handleModal, sentence }: ModalProps) => {
   };
   const playAudio = () => {
     if (audioRef.current) {
-      audioRef.current.play();
+      if (isPlaying) {
+        audioRef.current.pause();
+        setIsPlaying(false);
+      } else {
+        audioRef.current.play();
+        setIsPlaying(true);
+      }
     }
   };
 
@@ -114,11 +135,27 @@ const Modal = ({ handleModal, sentence }: ModalProps) => {
             브라우저가 오디오 태그를 지원하지 않습니다.
           </audio>
         )}
-        {score > 0 && (
-          <h1 className={score > 50 ? "text-subColor" : "text-mainColor"}>
-            {score}점
-          </h1>
-        )}
+        <div className="p-5">
+          {isLoading ? (
+            <h5>점수 분석중..</h5>
+          ) : (
+            score > 0 && (
+              <>
+                <h5>
+                  <span
+                    className={score > 3 ? "text-subColor" : "text-mainColor"}
+                  >
+                    {score}점
+                  </span>{" "}
+                  / 5.0점
+                </h5>
+                <h5 className={score > 3 ? "text-subColor" : "text-mainColor"}>
+                  {score > 3 ? "훌륭합니다 !" : "좀 더 노력하세요 !"}
+                </h5>
+              </>
+            )
+          )}
+        </div>
         <IconButton
           onClick={onRec ? onRecAudio : offRecAudio}
           icon={() =>
@@ -132,7 +169,13 @@ const Modal = ({ handleModal, sentence }: ModalProps) => {
         {audioUrl && (
           <IconButton
             onClick={playAudio}
-            icon={() => <FaPlay color="black" size={40} />}
+            icon={() =>
+              isPlaying ? (
+                <AiOutlinePause color="black" size={40} />
+              ) : (
+                <FaPlay color="black" size={40} />
+              )
+            }
           />
         )}
       </div>
