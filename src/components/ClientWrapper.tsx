@@ -18,8 +18,18 @@ export const ClientWrapper = ({ children }: PropsWithChildren) => {
   const handleLogin = () => {
     router.push(KAKAO_LOGIN_URL);
   };
-  const handleLogout = () => {
-    logout();
+  const handleLogout = async () => {
+    try {
+      await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/auth/logout`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${cookie}`,
+        },
+      });
+      logout();
+    } catch (error) {
+      console.error("로그인 실패", error);
+    }
   };
   return (
     <>

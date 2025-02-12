@@ -10,7 +10,7 @@ const useRecordMutation = () => {
   const addMutation = useMutation({
     mutationFn: async ({ sentenceId, file }: RecordType) => {
       const response = await fetch(
-        `http://localhost:8080/api/v1/sentences/record/${sentenceId}`,
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/sentences/record/${sentenceId}`,
         {
           method: "POST",
           headers: {

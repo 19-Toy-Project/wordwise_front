@@ -5,12 +5,15 @@ export default async function StudyPage() {
   const cookieStore = await cookies();
   const accessToken = cookieStore.get("accessToken")?.value || null;
 
-  const response = await fetch("http://localhost:8080/api/v1/users/score", {
-    method: "GET",
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
-  });
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/users/score`,
+    {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    }
+  );
   const { data: study } = await response.json();
   return (
     <div>

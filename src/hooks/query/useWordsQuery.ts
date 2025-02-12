@@ -9,7 +9,7 @@ const useWordsQuery = ({ page, size, levelId }: WordType) => {
     queryKey: [words, levelId],
     queryFn: async () => {
       const response = await fetch(
-        `http://localhost:8080/api/v1/words?page=${page}&size=${size}&type=${levelId}`,
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/words?page=${page}&size=${size}&type=${levelId}`,
         {
           headers: {
             Authorization: `Bearer ${cookie}`,

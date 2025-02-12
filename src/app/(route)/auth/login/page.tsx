@@ -18,7 +18,7 @@ export default function LoginPage() {
     const handleKaKaoLogin = async () => {
       try {
         const response = await fetch(
-          `http://localhost:8080/api/v1/auth/kakao/login`,
+          `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/auth/login`, //kakao를 지워야한다
           {
             method: "POST",
             headers: { "Content-Type": "application/json; charset=UTF-8" },

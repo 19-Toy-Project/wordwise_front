@@ -8,7 +8,7 @@ const useWordQuery = (wordId: string) => {
     queryKey: [word, wordId],
     queryFn: async () => {
       const response = await fetch(
-        `http://localhost:8080/api/v1/words/${wordId}`,
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/words/${wordId}`,
         {
           headers: {
             Authorization: `Bearer ${cookie}`,
