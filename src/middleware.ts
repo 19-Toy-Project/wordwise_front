@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
 import isValidToken from "@/utils/is-valid-token";
+import { refreshAccessToken } from "./utils/fetchWithAuth";
 /**
 case1 : access token과 refresh token 모두가 만료된 경우 → 에러 발생 (재 로그인하여 둘다 새로 발급)
 case2 : access token은 만료됐지만, refresh token은 유효한 경우 →  refresh token을 검증하여 access token 재발급
@@ -31,31 +32,30 @@ export default async function middleware(request: NextRequest) {
   }
   if (!isAccessTokenValid) {
     // case2: accesstoken은 무효하지만 refreshtoken은 유효한 경우 accesstoken 재발급
-    return NextResponse.next();
-    // const response2 = await refreshAccessToken();
+    const response2 = await refreshAccessToken(accessToken ?? "");
 
-    // const data = await response2.json();
-    // const { accessToken: accesstoken, refreshToken: refreshtoken } = data;
+    const data = await response2.json();
+    const { accessToken: accesstoken, refreshToken: refreshtoken } = data;
 
-    // const res = NextResponse.next();
+    const res = NextResponse.next();
 
-    // if (accesstoken) {
-    //   res.cookies.set("accessToken", accesstoken, {
-    //     httpOnly: false,
-    //     sameSite: "lax",
-    //     path: "/",
-    //     secure: true,
-    //   });
-    // }
-    // if (refreshtoken) {
-    //   res.cookies.set("refreshToken", refreshtoken, {
-    //     httpOnly: true,
-    //     sameSite: "lax",
-    //     path: "/",
-    //     secure: true,
-    //   });
-    // }
-    // return res;
+    if (accesstoken) {
+      res.cookies.set("accessToken", accesstoken, {
+        httpOnly: false,
+        sameSite: "lax",
+        path: "/",
+        secure: true,
+      });
+    }
+    if (refreshtoken) {
+      res.cookies.set("refreshToken", refreshtoken, {
+        httpOnly: true,
+        sameSite: "lax",
+        path: "/",
+        secure: true,
+      });
+    }
+    return res;
   }
 
   //case4:access token과 refresh token 모두가 유효한 경우 → 정상 처리
