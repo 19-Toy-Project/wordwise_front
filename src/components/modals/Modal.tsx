@@ -1,7 +1,7 @@
 "use client";
 
-import { useCookie } from "@/contexts/cookie.context";
 import { SentenceType } from "@/types/type";
+import { fetchWithAuth } from "@/utils/fetchWithAuth";
 import { useEffect, useRef, useState } from "react";
 import { AiOutlinePause } from "react-icons/ai";
 import { FaPlay } from "react-icons/fa";
@@ -19,10 +19,10 @@ const Modal = ({ handleModal, sentence }: ModalProps) => {
   const [onRec, setOnRec] = useState<boolean>(true);
   const [audioUrl, setAudioUrl] = useState<string | null>(null);
   const [score, setScore] = useState<number>(-1);
-  const { cookie } = useCookie();
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
+
   useEffect(() => {
     return () => {
       if (stream) {
@@ -71,17 +71,13 @@ const Modal = ({ handleModal, sentence }: ModalProps) => {
         setOnRec(true);
         setIsLoading(true);
         try {
-          const response = await fetch(
+          const response = await fetchWithAuth(
             `http://localhost:8080/api/v1/sentences/record/${sentence.sentenceId}`,
             {
               method: "POST",
-              headers: {
-                Authorization: `Bearer ${cookie}`,
-              },
               body: formData,
             }
           );
-
           const data = await response.json();
           setScore(Number(data.data.score));
         } catch (error) {
@@ -147,7 +143,7 @@ const Modal = ({ handleModal, sentence }: ModalProps) => {
                   >
                     {score}점
                   </span>{" "}
-                  / 5.0점
+                  / 100점
                 </h5>
                 <h5 className={score > 3 ? "text-subColor" : "text-mainColor"}>
                   {score > 3 ? "훌륭합니다 !" : "좀 더 노력하세요 !"}

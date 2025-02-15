@@ -18,7 +18,7 @@ export default function LoginPage() {
     const handleKaKaoLogin = async () => {
       try {
         const response = await fetch(
-          `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/auth/login`, //kakao를 지워야한다
+          `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/auth/login`,
           {
             method: "POST",
             headers: { "Content-Type": "application/json; charset=UTF-8" },
@@ -27,7 +27,18 @@ export default function LoginPage() {
         );
         const data = await response.json();
 
-        login(data.data.split(" ")[1]);
+        login(data.data.accessToken.split(" ")[1]); //15
+
+        await fetch(`http://localhost:3000/api/v1/auth`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            name: "refreshToken",
+            value: data.data.refreshToken.split(" ")[1],
+            exp: 7 * 24 * 60,
+            //httpOnly: true,
+          }),
+        }); //7 * 24 * 60
 
         router.push("/");
       } catch (error) {

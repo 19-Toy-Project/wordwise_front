@@ -1,6 +1,6 @@
 import { word } from "@/constants/queryKey";
-import { useCookie } from "@/contexts/cookie.context";
 import { SentenceType, WordType } from "@/types/type";
+import { fetchWithAuth } from "@/utils/fetchWithAuth";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 type WishMutationParams = {
@@ -9,18 +9,14 @@ type WishMutationParams = {
 };
 type OldData = Omit<WordType, "level"> & { sentences: SentenceType[] };
 const useWordMutation = ({ wordId }: { wordId: string }) => {
-  const { cookie } = useCookie();
   const queryClient = useQueryClient();
 
   const addMutation = useMutation({
     mutationFn: async ({ sentenceId, wish }: WishMutationParams) => {
-      const response = await fetch(
+      const response = await fetchWithAuth(
         `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/sentences/wish/${sentenceId}?state=${wish}`,
         {
           method: "POST",
-          headers: {
-            Authorization: `Bearer ${cookie}`,
-          },
           mode: "cors",
           credentials: "include",
         }
