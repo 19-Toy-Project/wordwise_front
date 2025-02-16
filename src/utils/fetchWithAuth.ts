@@ -8,7 +8,7 @@ export async function fetchWithAuth(url: string, options: RequestInit = {}) {
     ...options,
     headers: {
       ...options.headers,
-      Authorization: `Bearer ${accessToken}`,
+      Authorization: `${accessToken}`,
     },
     credentials: "include",
   });
@@ -16,18 +16,7 @@ export async function fetchWithAuth(url: string, options: RequestInit = {}) {
   if (response.status === 401) {
     const refreshResponse = await refreshAccessToken(accessToken ?? "");
 
-    setCookie("accessToken", refreshResponse.data.accessToken, 15);
-
-    await fetch(`http://localhost:3000/api/v1/auth`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        name: "refreshToken",
-        value: refreshResponse.data.refreshToken.split(" ")[1],
-        exp: 7 * 24 * 60,
-        httpOnly: true,
-      }),
-    }); //7 * 24 * 60
+    setCookie("accessToken", refreshResponse.data.accessToken);
     return refreshResponse;
   }
 
@@ -38,11 +27,11 @@ export async function fetchWithAuth(url: string, options: RequestInit = {}) {
 export async function refreshAccessToken(accessToken: string) {
   try {
     const response2 = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/auth/token`,
+      `${process.env.NEXT_PUBLIC_SERVICE_URL}/api/v1/auth/token`,
       {
         method: "POST",
         headers: {
-          Authorization: `Bearer ${accessToken}`,
+          Authorization: `${accessToken}`,
         },
         credentials: "include",
       }

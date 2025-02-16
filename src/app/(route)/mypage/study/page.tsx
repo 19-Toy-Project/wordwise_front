@@ -6,7 +6,7 @@ export default async function StudyPage() {
   const accessToken = cookieStore.get("accessToken")?.value || null;
 
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/users/score`,
+    `${process.env.NEXT_PUBLIC_SERVICE_URL}/api/v1/users/score`,
     {
       method: "GET",
       headers: {

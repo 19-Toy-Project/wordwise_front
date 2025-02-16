@@ -27,3 +27,22 @@ export async function GET() {
     return NextResponse.json({ error });
   }
 }
+
+export async function DELETE() {
+  try {
+    const response = NextResponse.json({
+      success: true,
+      message: "쿠키 삭제 완료",
+    });
+    response.cookies.set({
+      name: "refreshToken",
+      value: "",
+      expires: new Date(0),
+      httpOnly: true,
+      path: "/",
+    });
+    return response;
+  } catch (error) {
+    return NextResponse.json({ success: false, error });
+  }
+}

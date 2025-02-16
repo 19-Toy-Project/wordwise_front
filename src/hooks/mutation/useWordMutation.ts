@@ -14,7 +14,7 @@ const useWordMutation = ({ wordId }: { wordId: string }) => {
   const addMutation = useMutation({
     mutationFn: async ({ sentenceId, wish }: WishMutationParams) => {
       const response = await fetchWithAuth(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/sentences/wish/${sentenceId}?state=${wish}`,
+        `${process.env.NEXT_PUBLIC_SERVICE_URL}/api/v1/sentences/wish/${sentenceId}?state=${wish}`,
         {
           method: "POST",
           mode: "cors",

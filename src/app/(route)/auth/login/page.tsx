@@ -18,7 +18,7 @@ export default function LoginPage() {
     const handleKaKaoLogin = async () => {
       try {
         const response = await fetch(
-          `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/auth/login`,
+          `${process.env.NEXT_PUBLIC_SERVICE_URL}/api/v1/auth/login`,
           {
             method: "POST",
             headers: { "Content-Type": "application/json; charset=UTF-8" },
@@ -29,7 +29,7 @@ export default function LoginPage() {
 
         login(data.data.accessToken.split(" ")[1]); //15
 
-        await fetch(`http://localhost:3000/api/v1/auth`, {
+        await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/auth`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({

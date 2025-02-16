@@ -20,13 +20,21 @@ export const ClientWrapper = ({ children }: PropsWithChildren) => {
   };
   const handleLogout = async () => {
     try {
-      await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/auth/logout`, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${cookie}`,
-        },
-      });
-      logout();
+      // await fetch(`${process.env.NEXT_PUBLIC_SERVICE_URL}/api/v1/auth/logout`, {
+      //   method: "POST",
+      //   headers: {
+      //     Authorization: `${cookie}`,
+      //   },
+      // });
+
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/auth`,
+        {
+          method: "DELETE",
+        }
+      );
+      const data = await response.json();
+      if (data.success) logout();
     } catch (error) {
       console.error("로그인 실패", error);
     }

@@ -33,23 +33,14 @@ export default async function middleware(request: NextRequest) {
   if (!isAccessTokenValid) {
     // case2: accesstoken은 무효하지만 refreshtoken은 유효한 경우 accesstoken 재발급
     const response2 = await refreshAccessToken(accessToken ?? "");
-
-    const data = await response2.json();
-    const { accessToken: accesstoken, refreshToken: refreshtoken } = data;
+    console.log(response2);
+    const { accessToken: accesstoken } = response2.data;
 
     const res = NextResponse.next();
 
     if (accesstoken) {
       res.cookies.set("accessToken", accesstoken, {
         httpOnly: false,
-        sameSite: "lax",
-        path: "/",
-        secure: true,
-      });
-    }
-    if (refreshtoken) {
-      res.cookies.set("refreshToken", refreshtoken, {
-        httpOnly: true,
         sameSite: "lax",
         path: "/",
         secure: true,

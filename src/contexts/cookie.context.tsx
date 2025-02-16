@@ -35,7 +35,7 @@ export function CookieProvider({ children }: PropsWithChildren) {
   const value = {
     cookie: accessToken,
     login: (accessToken: string) => {
-      setCookie("accessToken", accessToken, 15); //15
+      setCookie("accessToken", accessToken); //15
 
       setAccessToken(accessToken);
     },
