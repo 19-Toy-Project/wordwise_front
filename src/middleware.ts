@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
 import isValidToken from "@/utils/is-valid-token";
-import { refreshAccessToken } from "./utils/fetchWithAuth";
 /**
 case1 : access token과 refresh token 모두가 만료된 경우 → 에러 발생 (재 로그인하여 둘다 새로 발급)
 case2 : access token은 만료됐지만, refresh token은 유효한 경우 →  refresh token을 검증하여 access token 재발급
@@ -21,7 +20,7 @@ export default async function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL("/", request.url));
   }
 
-  const { isAccessTokenValid, isRefreshTokenValid } = isValidToken({
+  const { isRefreshTokenValid } = isValidToken({
     accesstoken: accessToken,
     refreshtoken: refreshToken,
   });
@@ -30,24 +29,24 @@ export default async function middleware(request: NextRequest) {
     // case3 ?: refreshtoken 유효하지 않는 경우
     return NextResponse.redirect(new URL("/", request.url));
   }
-  if (!isAccessTokenValid) {
-    // case2: accesstoken은 무효하지만 refreshtoken은 유효한 경우 accesstoken 재발급
-    const response2 = await refreshAccessToken(accessToken ?? "");
-    console.log(response2);
-    const { accessToken: accesstoken } = response2.data;
+  // if (!isAccessTokenValid) {
+  //   // case2: accesstoken은 무효하지만 refreshtoken은 유효한 경우 accesstoken 재발급
+  //   const response2 = await refreshAccessToken(accessToken ?? "");
+  //   console.log(response2);
+  //   const { accessToken: accesstoken } = response2.data;
 
-    const res = NextResponse.next();
+  //   const res = NextResponse.next();
 
-    if (accesstoken) {
-      res.cookies.set("accessToken", accesstoken, {
-        httpOnly: false,
-        sameSite: "lax",
-        path: "/",
-        secure: true,
-      });
-    }
-    return res;
-  }
+  //   if (accesstoken) {
+  //     res.cookies.set("accessToken", accesstoken, {
+  //       httpOnly: false,
+  //       sameSite: "lax",
+  //       path: "/",
+  //       secure: true,
+  //     });
+  //   }
+  //   return res;
+  // }
 
   //case4:access token과 refresh token 모두가 유효한 경우 → 정상 처리
   return NextResponse.next();

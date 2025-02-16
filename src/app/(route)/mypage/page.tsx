@@ -1,3 +1,4 @@
+import { fetchWithAuth } from "@/utils/fetchWithAuth";
 import { cookies } from "next/headers";
 const ranks: Record<string, string> = {
   GOLD: "🥇",
@@ -6,9 +7,9 @@ const ranks: Record<string, string> = {
 };
 export default async function UserPage() {
   const cookieStore = await cookies();
-  const accessToken = cookieStore.get("accessToken")?.value || null;
+  const accessToken = cookieStore.get("accessToken")?.value || undefined;
 
-  const response = await fetch(
+  const response = await fetchWithAuth(
     `${process.env.NEXT_PUBLIC_SERVICE_URL}/api/v1/users/profiles`,
     {
       method: "GET",
@@ -17,7 +18,6 @@ export default async function UserPage() {
       },
     }
   );
-
   const { data: user } = await response.json();
 
   return (
