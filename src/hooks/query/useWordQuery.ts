@@ -16,7 +16,6 @@ const useWordQuery = (wordId: string) => {
           },
           method: "GET",
           mode: "cors",
-          credentials: "include",
         }
       );
       const data = await response.json();

@@ -17,7 +17,6 @@ const useWordsQuery = ({ page, size, levelId }: WordType) => {
           },
           method: "GET",
           mode: "cors",
-          credentials: "include",
         }
       );
       const data = await response.json();
