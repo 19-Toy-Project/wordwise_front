@@ -36,7 +36,7 @@ export default function LoginPage() {
             name: "refreshToken",
             value: data.data.refreshToken.split(" ")[1],
             exp: 7 * 24 * 60,
-            //httpOnly: true,
+            httpOnly: true,
           }),
         }); //7 * 24 * 60
 
