@@ -1,5 +1,6 @@
 import { words } from "@/constants/queryKey";
 import { useCookie } from "@/contexts/cookie.context";
+import { fetchWithAuth } from "@/utils/fetchWithAuth";
 import { useQuery } from "@tanstack/react-query";
 
 type WordType = { page: number; size: number; levelId: string };
@@ -8,7 +9,7 @@ const useWordsQuery = ({ page, size, levelId }: WordType) => {
   return useQuery({
     queryKey: [words, levelId],
     queryFn: async () => {
-      const response = await fetch(
+      const response = await fetchWithAuth(
         `${process.env.NEXT_PUBLIC_SERVICE_URL}/api/v1/words?page=${page}&size=${size}&type=${levelId}`,
         {
           headers: {

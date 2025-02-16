@@ -1,4 +1,3 @@
-import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
@@ -15,17 +14,6 @@ export async function POST(request: NextRequest) {
     path: "/",
   });
   return response;
-}
-
-export async function GET() {
-  try {
-    const cookieStore = await cookies();
-    const refreshToken = cookieStore.get("refreshToken")?.value;
-
-    return NextResponse.json({ data: refreshToken });
-  } catch (error) {
-    return NextResponse.json({ error });
-  }
 }
 
 export async function DELETE() {

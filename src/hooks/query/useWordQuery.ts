@@ -1,5 +1,6 @@
 import { word } from "@/constants/queryKey";
 import { useCookie } from "@/contexts/cookie.context";
+import { fetchWithAuth } from "@/utils/fetchWithAuth";
 import { useQuery } from "@tanstack/react-query";
 
 const useWordQuery = (wordId: string) => {
@@ -7,7 +8,7 @@ const useWordQuery = (wordId: string) => {
   return useQuery({
     queryKey: [word, wordId],
     queryFn: async () => {
-      const response = await fetch(
+      const response = await fetchWithAuth(
         `${process.env.NEXT_PUBLIC_SERVICE_URL}/api/v1/words/${wordId}`,
         {
           headers: {

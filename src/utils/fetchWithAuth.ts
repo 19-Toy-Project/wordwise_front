@@ -13,8 +13,8 @@ export async function fetchWithAuth(url: string, options: RequestInit = {}) {
   });
   console.log("response =", response);
 
-  if (response.status !== 200) {
-    const refreshResponse = await refreshAccessToken();
+  if (response.status === 401) {
+    const refreshResponse = await refreshAccessToken(options);
 
     setCookie("accessToken", refreshResponse.data.accessToken);
 
@@ -31,15 +31,13 @@ export async function fetchWithAuth(url: string, options: RequestInit = {}) {
 }
 
 // ✅ Access Token 갱신 함수
-export async function refreshAccessToken() {
+export async function refreshAccessToken(options: RequestInit = {}) {
   try {
     const response2 = await fetch(
       `${process.env.NEXT_PUBLIC_SERVICE_URL}/api/v1/auth/token`,
       {
         method: "POST",
-        headers: {
-          Authorization: `Bearer ${undefined}`,
-        },
+        headers: options.headers,
         credentials: "include",
       }
     );

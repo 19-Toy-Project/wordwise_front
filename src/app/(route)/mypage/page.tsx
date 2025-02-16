@@ -1,9 +1,11 @@
 import { fetchWithAuth } from "@/utils/fetchWithAuth";
 import { cookies } from "next/headers";
 const ranks: Record<string, string> = {
+  DIAMOND: "💎",
   GOLD: "🥇",
   SILVER: "🥈",
   BRONZE: "🥉",
+  IRON: "🌱",
 };
 export default async function UserPage() {
   const cookieStore = await cookies();
