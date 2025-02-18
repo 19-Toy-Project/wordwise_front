@@ -1,3 +1,4 @@
+import { jwtDecode } from "jwt-decode";
 
 export async function fetchWithAuth(url: string, options: RequestInit = {}) {
   // ✅ Access Token이 없으면 바로 Refresh Token으로 재발급 시도
@@ -15,9 +16,7 @@ export async function fetchWithAuth(url: string, options: RequestInit = {}) {
     const newResponse = await fetch(url, {
       ...options,
       headers: {
-        Authorization: `Bearer ${
-          refreshResponse.data.split(" ")[1]
-        }`,
+        Authorization: `Bearer ${refreshResponse.data.split(" ")[1]}`,
       },
       credentials: "include",
     });
@@ -38,13 +37,16 @@ export async function refreshAccessToken(options: RequestInit = {}) {
       }
     );
     const data2 = await response2.json();
+    const accessToken = data2.data.accessToken.split(" ")[1];
+    const decoded = jwtDecode<{ exp: number }>(accessToken);
+
     await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/auth`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         name: "accessToken",
         value: data2.data.split(" ")[1],
-     
+        expires: decoded?.exp,
       }),
     }); //7 * 24 * 60
 
