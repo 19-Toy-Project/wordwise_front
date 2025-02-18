@@ -2,7 +2,7 @@
 import { useCookie } from "@/contexts/cookie.context";
 import { jwtDecode } from "jwt-decode";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect } from "react";
+import { Suspense, useEffect } from "react";
 
 export default function LoginPage() {
   const { login } = useCookie();
@@ -55,5 +55,9 @@ export default function LoginPage() {
 
     handleKaKaoLogin();
   }, [code, router]);
-  return <div>로그인중...</div>;
+  return (
+    <Suspense fallback={<div>로딩 중...</div>}>
+      <div>로그인중...</div>
+    </Suspense>
+  );
 }
