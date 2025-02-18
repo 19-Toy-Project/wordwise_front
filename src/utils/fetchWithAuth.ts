@@ -5,9 +5,7 @@ export async function fetchWithAuth(url: string, options: RequestInit = {}) {
 
   const response = await fetch(url, {
     ...options,
-    headers: {
-      ...options.headers,
-    },
+    headers: options.headers,
     credentials: "include",
   });
 
@@ -16,7 +14,7 @@ export async function fetchWithAuth(url: string, options: RequestInit = {}) {
     const newResponse = await fetch(url, {
       ...options,
       headers: {
-        Authorization: `Bearer ${refreshResponse.data.split(" ")[1]}`,
+        Authorization: `Bearer ${refreshResponse}`,
       },
       credentials: "include",
     });
@@ -37,7 +35,7 @@ export async function refreshAccessToken(options: RequestInit = {}) {
       }
     );
     const data2 = await response2.json();
-    const accessToken = data2.data.accessToken.split(" ")[1];
+    const accessToken = data2.data.split(" ")[1];
     const decoded = jwtDecode<{ exp: number }>(accessToken);
 
     await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/auth`, {
@@ -50,7 +48,7 @@ export async function refreshAccessToken(options: RequestInit = {}) {
       }),
     }); //7 * 24 * 60
 
-    return data2;
+    return accessToken;
   } catch (error) {
     console.error("🔴 Refresh Token 인증 실패:", error);
   }
