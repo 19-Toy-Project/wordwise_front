@@ -1,5 +1,6 @@
 "use client";
 import { useCookie } from "@/contexts/cookie.context";
+import { jwtDecode } from "jwt-decode";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 
@@ -18,7 +19,7 @@ export default function LoginPage() {
     const handleKaKaoLogin = async () => {
       try {
         const response = await fetch(
-          `http://localhost:8080/api/v1/auth/kakao/login`,
+          `${process.env.NEXT_PUBLIC_SERVICE_URL}/api/v1/auth/login`,
           {
             method: "POST",
             headers: { "Content-Type": "application/json; charset=UTF-8" },
@@ -27,7 +28,24 @@ export default function LoginPage() {
         );
         const data = await response.json();
 
-        login(data.data.split(" ")[1]);
+        const accessToken = data.data.accessToken.split(" ")[1];
+        const decoded = jwtDecode<{ exp: number }>(accessToken);
+
+        login(accessToken, decoded?.exp); //15
+
+        const refreshToken = data.data.refreshToken.split(" ")[1];
+        const decoded2 = jwtDecode<{ exp: number }>(refreshToken);
+
+        await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/auth`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            name: "refreshToken",
+            value: refreshToken,
+            expires: decoded2?.exp,
+            httpOnly: true,
+          }),
+        }); //7 * 24 * 60
 
         router.push("/");
       } catch (error) {

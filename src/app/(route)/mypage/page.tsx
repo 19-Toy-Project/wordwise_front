@@ -1,20 +1,25 @@
+import { fetchWithAuth } from "@/utils/fetchWithAuth";
 import { cookies } from "next/headers";
 const ranks: Record<string, string> = {
+  DIAMOND: "💎",
   GOLD: "🥇",
   SILVER: "🥈",
   BRONZE: "🥉",
+  IRON: "🌱",
 };
 export default async function UserPage() {
   const cookieStore = await cookies();
-  const accessToken = cookieStore.get("accessToken")?.value || null;
+  const accessToken = cookieStore.get("accessToken")?.value || undefined;
 
-  const response = await fetch("http://localhost:8080/api/v1/users/profiles", {
-    method: "GET",
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
-  });
-
+  const response = await fetchWithAuth(
+    `${process.env.NEXT_PUBLIC_SERVICE_URL}/api/v1/users/profiles`,
+    {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    }
+  );
   const { data: user } = await response.json();
 
   return (

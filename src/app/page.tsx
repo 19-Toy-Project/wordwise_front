@@ -32,6 +32,7 @@ const HomePage = () => {
           height={800}
           className="object-contain"
           alt="banner"
+          unoptimized
         />
       </div>
 

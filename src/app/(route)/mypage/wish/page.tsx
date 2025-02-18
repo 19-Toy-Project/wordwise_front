@@ -1,12 +1,13 @@
 import { Button } from "@/components/buttons";
 import { SentenceType } from "@/types/type";
+import { fetchWithAuth } from "@/utils/fetchWithAuth";
 import { cookies } from "next/headers";
 
 export default async function WishPage() {
   const cookieStore = await cookies();
   const accessToken = cookieStore.get("accessToken")?.value || null;
-  const response = await fetch(
-    `http://localhost:8080/api/v1/users/wish/sentence`,
+  const response = await fetchWithAuth(
+    `${process.env.NEXT_PUBLIC_SERVICE_URL}/api/v1/users/wish/sentence`,
     {
       method: "GET",
       headers: {

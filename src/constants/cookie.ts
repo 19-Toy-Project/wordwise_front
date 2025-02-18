@@ -1,12 +1,18 @@
-export const setCookie = (name: string, value: string, exp: number) => {
-  const date = new Date();
-  date.setTime(date.getTime() + exp * 24 * 60 * 60 * 1000);
-  document.cookie =
-    name + "=" + value + ";expires=" + date.toUTCString() + ";path=/";
+export const setCookie = (name: string, value: string, expires: number) => {
+  const date = new Date(expires * 1000);
+  const kstOffset = 9 * 60 * 60 * 1000; // 9시간을 밀리초로 변환
+  const kstDate = new Date(date.getTime() + kstOffset);
+
+  const expiresUTC = kstDate.toLocaleString("ko-KR", {
+    timeZone: "Asia/Seoul",
+  });
+
+  document.cookie = name + "=" + value + "; expires=" + expiresUTC + "; path=/";
 };
 
 export const getCookie = (name: string) => {
   const value = document.cookie.match("(^|;) ?" + name + "=([^;]*)(;|$)");
+
   return value ? value[2] : null;
 };
 

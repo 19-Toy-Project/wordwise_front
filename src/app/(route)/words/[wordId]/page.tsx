@@ -29,11 +29,11 @@ export default function WordPage() {
     <div className="wrapper">
       <div className="mb-4 text-center">
         <h2>{word?.data.word}</h2>
-        <p>
+        {/* <p>
           {word?.data.word_krs.map((word_kr: string) => (
             <span key={word_kr}>{word_kr}</span>
           ))}
-        </p>
+        </p> */}
         <hr />
       </div>
 

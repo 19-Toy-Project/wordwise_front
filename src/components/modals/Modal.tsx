@@ -2,6 +2,7 @@
 
 import { useCookie } from "@/contexts/cookie.context";
 import { SentenceType } from "@/types/type";
+import { fetchWithAuth } from "@/utils/fetchWithAuth";
 import { useEffect, useRef, useState } from "react";
 import { AiOutlinePause } from "react-icons/ai";
 import { FaPlay } from "react-icons/fa";
@@ -19,10 +20,10 @@ const Modal = ({ handleModal, sentence }: ModalProps) => {
   const [onRec, setOnRec] = useState<boolean>(true);
   const [audioUrl, setAudioUrl] = useState<string | null>(null);
   const [score, setScore] = useState<number>(-1);
-  const { cookie } = useCookie();
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
+  const { cookie } = useCookie();
   useEffect(() => {
     return () => {
       if (stream) {
@@ -32,8 +33,6 @@ const Modal = ({ handleModal, sentence }: ModalProps) => {
   }, [stream]);
 
   const onRecAudio = async () => {
-    if (typeof window === "undefined") return;
-
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       // navigator : 브라우저의 정보와 상태에 엑세스 할 수 있는 객체
@@ -71,8 +70,8 @@ const Modal = ({ handleModal, sentence }: ModalProps) => {
         setOnRec(true);
         setIsLoading(true);
         try {
-          const response = await fetch(
-            `http://localhost:8080/api/v1/sentences/record/${sentence.sentenceId}`,
+          const response = await fetchWithAuth(
+            `${process.env.NEXT_PUBLIC_SERVICE_URL}/api/v1/sentences/record/${sentence.sentenceId}`,
             {
               method: "POST",
               headers: {
@@ -81,7 +80,6 @@ const Modal = ({ handleModal, sentence }: ModalProps) => {
               body: formData,
             }
           );
-
           const data = await response.json();
           setScore(Number(data.data.score));
         } catch (error) {
@@ -147,7 +145,7 @@ const Modal = ({ handleModal, sentence }: ModalProps) => {
                   >
                     {score}점
                   </span>{" "}
-                  / 5.0점
+                  / 100점
                 </h5>
                 <h5 className={score > 3 ? "text-subColor" : "text-mainColor"}>
                   {score > 3 ? "훌륭합니다 !" : "좀 더 노력하세요 !"}
