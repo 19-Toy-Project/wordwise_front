@@ -1,15 +1,16 @@
 "use client";
 import { useCookie } from "@/contexts/cookie.context";
+import useCustomSearchParams from "@/hooks/useCustomSearchParams";
 import { jwtDecode } from "jwt-decode";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { Suspense, useEffect } from "react";
 
 export default function LoginPage() {
   const { login } = useCookie();
-  const searchParams = useSearchParams();
+  const { searchParams } = useCustomSearchParams();
   const router = useRouter();
 
-  const code = searchParams?.get("code") as string;
+  const code = (searchParams?.get("code") as string) || "";
   //
   useEffect(() => {
     if (!code) {
