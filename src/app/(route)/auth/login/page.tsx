@@ -1,5 +1,6 @@
 "use client";
 import { useCookie } from "@/contexts/cookie.context";
+import { jwtDecode } from "jwt-decode";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 
@@ -27,15 +28,21 @@ export default function LoginPage() {
         );
         const data = await response.json();
 
-        login(data.data.accessToken.split(" ")[1]); //15
+        const accessToken = data.data.accessToken.split(" ")[1];
+        const decoded = jwtDecode<{ exp: number }>(accessToken);
+
+        login(accessToken, decoded?.exp); //15
+
+        const refreshToken = data.data.refreshToken.split(" ")[1];
+        const decoded2 = jwtDecode<{ exp: number }>(refreshToken);
 
         await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/auth`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             name: "refreshToken",
-            value: data.data.refreshToken.split(" ")[1],
-            exp: 7 * 24 * 60,
+            value: refreshToken,
+            expires: decoded2?.exp,
             httpOnly: true,
           }),
         }); //7 * 24 * 60

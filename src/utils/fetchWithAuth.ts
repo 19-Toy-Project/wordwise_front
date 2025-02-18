@@ -1,5 +1,5 @@
+
 export async function fetchWithAuth(url: string, options: RequestInit = {}) {
- 
   // ✅ Access Token이 없으면 바로 Refresh Token으로 재발급 시도
 
   const response = await fetch(url, {
@@ -16,7 +16,7 @@ export async function fetchWithAuth(url: string, options: RequestInit = {}) {
       ...options,
       headers: {
         Authorization: `Bearer ${
-          refreshResponse.data.accessToken.split(" ")[1]
+          refreshResponse.data.split(" ")[1]
         }`,
       },
       credentials: "include",
@@ -44,6 +44,7 @@ export async function refreshAccessToken(options: RequestInit = {}) {
       body: JSON.stringify({
         name: "accessToken",
         value: data2.data.split(" ")[1],
+     
       }),
     }); //7 * 24 * 60
 

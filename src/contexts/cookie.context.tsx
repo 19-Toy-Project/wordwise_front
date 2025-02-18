@@ -11,7 +11,7 @@ import {
 
 type InitialValueType = {
   cookie: string | null;
-  login: (accessToken: string) => void;
+  login: (accessToken: string, accessTokenExpiry: number) => void;
   logout: () => void;
 };
 const initialValue: InitialValueType = {
@@ -34,8 +34,8 @@ export function CookieProvider({ children }: PropsWithChildren) {
 
   const value = {
     cookie: accessToken,
-    login: (accessToken: string) => {
-      setCookie("accessToken", accessToken); //15
+    login: (accessToken: string, accessTokenExpiry: number) => {
+      setCookie("accessToken", accessToken, accessTokenExpiry); //15
 
       setAccessToken(accessToken);
     },

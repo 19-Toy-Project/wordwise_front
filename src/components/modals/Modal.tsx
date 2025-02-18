@@ -1,5 +1,6 @@
 "use client";
 
+import { useCookie } from "@/contexts/cookie.context";
 import { SentenceType } from "@/types/type";
 import { fetchWithAuth } from "@/utils/fetchWithAuth";
 import { useEffect, useRef, useState } from "react";
@@ -22,7 +23,7 @@ const Modal = ({ handleModal, sentence }: ModalProps) => {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
-
+  const { cookie } = useCookie();
   useEffect(() => {
     return () => {
       if (stream) {
@@ -32,8 +33,6 @@ const Modal = ({ handleModal, sentence }: ModalProps) => {
   }, [stream]);
 
   const onRecAudio = async () => {
-    if (typeof window === "undefined") return;
-
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       // navigator : 브라우저의 정보와 상태에 엑세스 할 수 있는 객체
@@ -72,9 +71,12 @@ const Modal = ({ handleModal, sentence }: ModalProps) => {
         setIsLoading(true);
         try {
           const response = await fetchWithAuth(
-            `http://localhost:8080/api/v1/sentences/record/${sentence.sentenceId}`,
+            `${process.env.NEXT_PUBLIC_SERVICE_URL}/api/v1/sentences/record/${sentence.sentenceId}`,
             {
               method: "POST",
+              headers: {
+                Authorization: `Bearer ${cookie}`,
+              },
               body: formData,
             }
           );

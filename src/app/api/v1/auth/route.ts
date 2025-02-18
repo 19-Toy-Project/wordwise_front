@@ -1,14 +1,16 @@
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
-  const { name, value, httpOnly } = await request.json();
-  // const date = new Date();
-  // date.setTime(date.getTime() + exp * 60 * 1000);
+  const { name, value, httpOnly, expires } = await request.json();
+  const date = new Date(expires * 1000);
+  const kstOffset = 9 * 60 * 60 * 1000; // 9시간을 밀리초로 변환
+  const kstDate = new Date(date.getTime() + kstOffset);
 
   const response = NextResponse.json({ message: "쿠키 설정 완료" });
   response.cookies.set({
     name,
     value,
+    expires: kstDate,
     httpOnly: httpOnly || false,
     path: "/",
   });
