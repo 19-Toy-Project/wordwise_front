@@ -10,7 +10,7 @@ const ranks: Record<string, string> = {
 export default async function UserPage() {
   const cookieStore = await cookies();
   const accessToken = cookieStore.get("accessToken")?.value;
-  console.log(accessToken);
+
   const response = await fetchWithAuth(
     `${process.env.NEXT_PUBLIC_SERVICE_URL}/api/v1/users/profiles`,
     {
@@ -18,7 +18,6 @@ export default async function UserPage() {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
-      mode: "cors",
     }
   );
   const { data: user } = await response.json();

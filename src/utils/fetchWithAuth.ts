@@ -7,6 +7,7 @@ export async function fetchWithAuth(url: string, options: RequestInit = {}) {
     ...options,
     headers: options.headers,
     credentials: "include",
+    mode: "cors",
   });
 
   if (response.status === 401) {
@@ -17,6 +18,7 @@ export async function fetchWithAuth(url: string, options: RequestInit = {}) {
         Authorization: `Bearer ${refreshResponse}`,
       },
       credentials: "include",
+      mode: "cors",
     });
     return newResponse;
   }
@@ -32,12 +34,13 @@ export async function refreshAccessToken(options: RequestInit = {}) {
         method: "POST",
         headers: options.headers,
         credentials: "include",
+        mode: "cors",
       }
     );
     const data2 = await response2.json();
     const accessToken = data2.data.split(" ")[1];
     const decoded = jwtDecode<{ exp: number }>(accessToken);
-
+    console.log(decoded);
     await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/auth`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },

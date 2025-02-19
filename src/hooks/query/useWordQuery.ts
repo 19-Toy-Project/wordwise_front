@@ -15,7 +15,6 @@ const useWordQuery = (wordId: string) => {
             Authorization: `Bearer ${cookie}`,
           },
           method: "GET",
-          mode: "cors",
         }
       );
       const data = await response.json();
