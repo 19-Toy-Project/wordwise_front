@@ -40,7 +40,7 @@ export async function refreshAccessToken(options: RequestInit = {}) {
     const data2 = await response2.json();
     const accessToken = data2.data.split(" ")[1];
     const decoded = jwtDecode<{ exp: number }>(accessToken);
-
+    console.log(decoded);
     await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/auth`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },

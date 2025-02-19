@@ -18,7 +18,6 @@ const useWordMutation = ({ wordId }: { wordId: string }) => {
         `${process.env.NEXT_PUBLIC_SERVICE_URL}/api/v1/sentences/wish/${sentenceId}?state=${wish}`,
         {
           method: "POST",
-          mode: "cors",
           headers: {
             Authorization: `Bearer ${cookie}`,
           },
