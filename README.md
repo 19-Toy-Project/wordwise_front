@@ -1,4 +1,5 @@
 ## 🏆 문장으로 학습하는 영어단어 서비스 WordWise
+![WordWise](https://github.com/user-attachments/assets/b74f7a68-814d-4862-87b4-4781b0e431a4)
 
 `프론트 링크` : https://port-next-wordwise-front-m7a8ouhb0246019e.sel4.cloudtype.app <br/>
 `백엔드 링크` : https://port-0-word-wise-dk-m78s70fc7c5822ef.sel4.cloudtype.app
