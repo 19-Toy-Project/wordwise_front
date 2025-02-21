@@ -20,12 +20,13 @@ export const LoginComponent = () => {
             method: "POST",
             headers: { "Content-Type": "application/json; charset=UTF-8" },
             body: JSON.stringify({ code: code }),
+            credentials: "include",
           }
         );
         const data = await response.json();
         const accessToken = data.data.accessToken.split(" ")[1];
         const decoded = jwtDecode<{ exp: number }>(accessToken);
-        login(accessToken, decoded?.exp, true, "None"); //15
+        login(accessToken, decoded?.exp); //15
         const refreshToken = data.data.refreshToken.split(" ")[1];
         const decoded2 = jwtDecode<{ exp: number }>(refreshToken);
 

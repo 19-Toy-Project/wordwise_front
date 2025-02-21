@@ -7,6 +7,7 @@ import { useEffect, useRef, useState } from "react";
 import { AiOutlinePause } from "react-icons/ai";
 import { FaPlay } from "react-icons/fa";
 import { IoMdClose, IoMdMic, IoMdMicOff } from "react-icons/io";
+import { setSpeech } from "../../app/api/v1/api.tts";
 import { IconButton } from "../buttons";
 import BackDrop from "./BackDrop";
 type ModalProps = {
@@ -24,6 +25,7 @@ const Modal = ({ handleModal, sentence }: ModalProps) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const { cookie } = useCookie();
+  const [transcript, setTranscript] = useState<string>("");
   useEffect(() => {
     return () => {
       if (stream) {
@@ -31,6 +33,14 @@ const Modal = ({ handleModal, sentence }: ModalProps) => {
       }
     };
   }, [stream]);
+  useEffect(() => {
+    if (transcript.toLowerCase() === sentence.sentence.toLowerCase()) {
+      if (media) {
+        media.stop();
+        setOnRec(true);
+      }
+    }
+  }, [media, sentence.sentence, transcript]);
 
   const onRecAudio = async () => {
     try {
@@ -46,48 +56,20 @@ const Modal = ({ handleModal, sentence }: ModalProps) => {
 
       mediaRecorder.start();
       setOnRec(false);
+      // 음성 인식 콜백 전달
 
       const audioChunks: BlobPart[] = [];
       mediaRecorder.ondataavailable = (event) => {
         audioChunks.push(event.data);
       };
-
-      mediaRecorder.onstop = async () => {
-        const audioBlob = new Blob(audioChunks, { type: "audio/wav" });
-        if (audioUrl) {
-          URL.revokeObjectURL(audioUrl);
+      setSpeech((transcript) => {
+        setTranscript(transcript); // transcript 상태 업데이트
+        if (transcript.includes("마이크 에러")) {
+          throw new Error("마이크 에러 발생");
         }
-        const newAudioUrl = URL.createObjectURL(audioBlob);
+      });
 
-        const formData = new FormData();
-        formData.append("file", audioBlob);
-        setAudioUrl(newAudioUrl);
-
-        if (audioRef.current) {
-          audioRef.current.src = newAudioUrl;
-        }
-
-        setOnRec(true);
-        setIsLoading(true);
-        try {
-          const response = await fetchWithAuth(
-            `${process.env.NEXT_PUBLIC_SERVICE_URL}/api/v1/sentences/record/${sentence.sentenceId}`,
-            {
-              method: "POST",
-              headers: {
-                Authorization: `Bearer ${cookie}`,
-              },
-              body: formData,
-            }
-          );
-          const data = await response.json();
-          setScore(Number(data.data.score));
-        } catch (error) {
-          console.error("점수 분석 오류: ", error);
-        } finally {
-          setIsLoading(false);
-        }
-      };
+      mediaRecorder.onstop = () => callPostRecordAPI(audioChunks);
 
       setTimeout(() => {
         mediaRecorder.stop();
@@ -115,6 +97,56 @@ const Modal = ({ handleModal, sentence }: ModalProps) => {
     }
   };
 
+  const callPostRecordAPI = async (audioChunks: BlobPart[]) => {
+    const audioBlob = new Blob(audioChunks, { type: "audio/wav" });
+    if (audioUrl) {
+      URL.revokeObjectURL(audioUrl);
+    }
+    const newAudioUrl = URL.createObjectURL(audioBlob);
+
+    const formData = new FormData();
+    formData.append("file", audioBlob);
+    setAudioUrl(newAudioUrl);
+
+    if (audioRef.current) {
+      audioRef.current.src = newAudioUrl;
+    }
+
+    setOnRec(true);
+    setIsLoading(true);
+    try {
+      const response = await fetchWithAuth(
+        `${process.env.NEXT_PUBLIC_SERVICE_URL}/api/v1/sentences/record/${sentence.sentenceId}`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${cookie}`,
+          },
+          body: formData,
+        }
+      );
+      const data = await response.json();
+      setScore(Number(data.data.score));
+    } catch (error) {
+      console.error("점수 분석 오류: ", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  const highlightText = (text: string, highlight: string) => {
+    if (!highlight) return text;
+    const parts = text.split(new RegExp(`(${highlight})`, "gi")); // 대소문자 구분 없이 검색
+    return parts.map((part, index) =>
+      part.toLowerCase() === highlight.toLowerCase() ? (
+        <span key={index} className="text-green-500">
+          {part}
+        </span>
+      ) : (
+        part
+      )
+    );
+  };
+
   return (
     <BackDrop>
       <div className="flex flex-row justify-between">
@@ -125,10 +157,15 @@ const Modal = ({ handleModal, sentence }: ModalProps) => {
         />
       </div>
       <div className="text-center">
-        <h5>{sentence.sentence}</h5>
+        <h5>{highlightText(sentence.sentence, transcript)}</h5>
         <p>{sentence.sentence_kr}</p>
         {audioUrl && (
-          <audio className="hidden" ref={audioRef} controls>
+          <audio
+            className="hidden"
+            ref={audioRef}
+            controls
+            onEnded={() => setIsPlaying(false)}
+          >
             <source src={audioUrl} type="audio/webm" />
             브라우저가 오디오 태그를 지원하지 않습니다.
           </audio>
