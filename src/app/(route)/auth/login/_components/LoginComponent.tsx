@@ -20,6 +20,7 @@ export const LoginComponent = () => {
             method: "POST",
             headers: { "Content-Type": "application/json; charset=UTF-8" },
             body: JSON.stringify({ code: code }),
+            credentials: "include",
           }
         );
         const data = await response.json();
@@ -28,6 +29,7 @@ export const LoginComponent = () => {
         login(accessToken, decoded?.exp, true, "None"); //15
         // const refreshToken = data.data.refreshToken.split(" ")[1];
         // const decoded2 = jwtDecode<{ exp: number }>(refreshToken);
+
 
         // await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/auth`, {
         //   method: "POST",
