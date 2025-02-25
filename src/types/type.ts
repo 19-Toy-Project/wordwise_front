@@ -10,3 +10,9 @@ export type SentenceType = {
   sentence: string;
   wish?: boolean;
 };
+
+export type UserType = {
+  userTier: string;
+  userName: string;
+  userEmail: string;
+};
