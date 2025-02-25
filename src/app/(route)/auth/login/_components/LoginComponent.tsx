@@ -26,20 +26,21 @@ export const LoginComponent = () => {
         const data = await response.json();
         const accessToken = data.data.accessToken.split(" ")[1];
         const decoded = jwtDecode<{ exp: number }>(accessToken);
-        login(accessToken, decoded?.exp); //15
-        const refreshToken = data.data.refreshToken.split(" ")[1];
-        const decoded2 = jwtDecode<{ exp: number }>(refreshToken);
+        login(accessToken, decoded?.exp, true, "None"); //15
+        // const refreshToken = data.data.refreshToken.split(" ")[1];
+        // const decoded2 = jwtDecode<{ exp: number }>(refreshToken);
 
-        await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/auth`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            name: "refreshToken",
-            value: refreshToken,
-            expires: decoded2?.exp,
-            httpOnly: true,
-          }),
-        });
+
+        // await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/auth`, {
+        //   method: "POST",
+        //   headers: { "Content-Type": "application/json" },
+        //   body: JSON.stringify({
+        //     name: "refreshToken",
+        //     value: refreshToken,
+        //     expires: decoded2?.exp,
+        //     httpOnly: true,
+        //   }),
+        // });
         router.push("/");
       } catch (error) {
         console.error(error);
