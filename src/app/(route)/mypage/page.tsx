@@ -1,3 +1,3 @@
-export default async function UserPage() {
+export default function UserPage() {
   return <div className="text-center"></div>;
 }
