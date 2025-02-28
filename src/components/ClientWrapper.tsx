@@ -13,6 +13,15 @@ const KAKAO_LOGIN_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${pro
 ${process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URL}&response_type=code`;
 
 export const ClientWrapper = ({ children }: PropsWithChildren) => {
+  return (
+    <Suspense fallback={<div>loading...</div>}>
+      <ClientWrapperComponent />
+      {children}
+    </Suspense>
+  );
+};
+
+const ClientWrapperComponent = () => {
   const { cookie, logout } = useCookie();
   const { open } = useToast();
   const { setSearchParams } = useCustomSearchParams();
@@ -57,51 +66,47 @@ export const ClientWrapper = ({ children }: PropsWithChildren) => {
     router.push(`/search?keyword=${keyword}`);
   };
   return (
-    <Suspense fallback={<div>loading...</div>}>
-      <div className="sticky top-0 z-20 bg-background w-full h-20 px-5 flex items-center justify-between sm:gap-5">
-        {/* 로고 */}
+    <div className="sticky top-0 z-20 bg-background w-full h-20 px-5 flex items-center justify-between sm:gap-5">
+      {/* 로고 */}
+      <IconButton
+        href={home}
+        icon={() => (
+          <Image src="/svg/Logo.svg" width={70} height={40} alt="Logo" />
+        )}
+      />
+
+      {/* 메뉴 버튼 (모바일 전용) */}
+      <div className="md:hidden">
         <IconButton
-          href={home}
-          icon={() => (
-            <Image src="/svg/Logo.svg" width={70} height={40} alt="Logo" />
-          )}
+          onClick={() => setMenuOpen((prev) => !prev)}
+          icon={() => <IoMenu color="black" size={30} />}
         />
-
-        {/* 메뉴 버튼 (모바일 전용) */}
-        <div className="md:hidden">
-          <IconButton
-            onClick={() => setMenuOpen((prev) => !prev)}
-            icon={() => <IoMenu color="black" size={30} />}
-          />
-        </div>
-
-        {/* 버튼 리스트 */}
-        <div
-          className={`${
-            menuOpen ? "block" : "hidden"
-          } md:flex md:items-center md:gap-5 absolute md:static top-20 left-0 w-full bg-background px-5 py-3 md:py-0 transition-all duration-300 ease-in-out`}
-        >
-          <Button href={about}>ABOUT US</Button>
-          {cookie ? (
-            <>
-              <Button onClick={handleLogout}>로그아웃</Button>
-              <Button href={mypage}>내 정보</Button>
-              <form onSubmit={handleSearch}>
-                <input
-                  className="focus:outline-none focus:ring-0 rounded-md p-2"
-                  name="keyword"
-                  required
-                />
-                <Button type="submit">검색</Button>
-              </form>
-            </>
-          ) : (
-            <Button onClick={handleLogin}>로그인</Button>
-          )}
-        </div>
       </div>
 
-      {children}
-    </Suspense>
+      {/* 버튼 리스트 */}
+      <div
+        className={`${
+          menuOpen ? "block" : "hidden"
+        } md:flex md:items-center md:gap-5 absolute md:static top-20 left-0 w-full bg-background px-5 py-3 md:py-0 transition-all duration-300 ease-in-out`}
+      >
+        <Button href={about}>ABOUT US</Button>
+        {cookie ? (
+          <>
+            <Button onClick={handleLogout}>로그아웃</Button>
+            <Button href={mypage}>내 정보</Button>
+            <form onSubmit={handleSearch}>
+              <input
+                className="focus:outline-none focus:ring-0 rounded-md p-2"
+                name="keyword"
+                required
+              />
+              <Button type="submit">검색</Button>
+            </form>
+          </>
+        ) : (
+          <Button onClick={handleLogin}>로그인</Button>
+        )}
+      </div>
+    </div>
   );
 };

@@ -5,6 +5,14 @@ import { jwtDecode } from "jwt-decode";
 import { useRouter } from "next/navigation";
 import { Suspense, useEffect } from "react";
 export default function LoginPage() {
+  return (
+    <Suspense>
+      <LoginComponent />
+    </Suspense>
+  );
+}
+
+const LoginComponent = () => {
   const { searchParams } = useCustomSearchParams();
   const router = useRouter();
   const { login } = useCookie();
@@ -47,9 +55,5 @@ export default function LoginPage() {
 
     handleKaKaoLogin();
   }, [code, router]);
-  return (
-    <Suspense>
-      <div>로그인중...</div>
-    </Suspense>
-  );
-}
+  return <div>로그인중...</div>;
+};
