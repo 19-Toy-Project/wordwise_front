@@ -2,6 +2,7 @@ import { ClientWrapper } from "@/components/ClientWrapper";
 import { ModalProvider } from "@/contexts/modal.context";
 
 import { CookieProvider } from "@/contexts/cookie.context";
+import { ToastProvider } from "@/contexts/toast.context";
 import QueryProvider from "@/providers/QueryProvider";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
@@ -38,13 +39,15 @@ export default function RootLayout({
       >
         <CookieProvider>
           <QueryProvider>
-            <ModalProvider>
-              <ClientWrapper>
-                <Suspense fallback={<div>loading...</div>}>
-                  <main>{children}</main>
-                </Suspense>
-              </ClientWrapper>
-            </ModalProvider>
+            <ToastProvider>
+              <ModalProvider>
+                <ClientWrapper>
+                  <Suspense fallback={<div>loading...</div>}>
+                    <main>{children}</main>
+                  </Suspense>
+                </ClientWrapper>
+              </ModalProvider>
+            </ToastProvider>
           </QueryProvider>
         </CookieProvider>
       </body>

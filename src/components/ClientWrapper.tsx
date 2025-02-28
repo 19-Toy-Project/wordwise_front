@@ -1,9 +1,11 @@
 "use client";
 import { about, home, mypage } from "@/constants/pathname";
 import { useCookie } from "@/contexts/cookie.context";
+import { useToast } from "@/contexts/toast.context";
+import useCustomSearchParams from "@/hooks/useCustomSearchParams";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { PropsWithChildren, useState } from "react";
+import { FormEvent, PropsWithChildren, useState } from "react";
 import { IoMenu } from "react-icons/io5";
 import { Button, IconButton } from "./buttons";
 
@@ -12,6 +14,8 @@ ${process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URL}&response_type=code`;
 
 export const ClientWrapper = ({ children }: PropsWithChildren) => {
   const { cookie, logout } = useCookie();
+  const { open } = useToast();
+  const { setSearchParams } = useCustomSearchParams();
   const router = useRouter();
   const [menuOpen, setMenuOpen] = useState<boolean>(false); // 메뉴 상태 관리
 
@@ -38,6 +42,19 @@ export const ClientWrapper = ({ children }: PropsWithChildren) => {
     } catch (error) {
       console.error("로그인 실패", error);
     }
+  };
+
+  const handleSearch = (e: FormEvent) => {
+    e.preventDefault();
+    const formData = new FormData(e.target as HTMLFormElement);
+    const keyword = formData.get("keyword") as string;
+
+    if (!keyword.trim()) {
+      open({ label: "검색어를 입력해주세요 !" });
+      return;
+    }
+    setSearchParams({ keyword: keyword });
+    router.push(`/search?keyword=${keyword}`);
   };
   return (
     <>
@@ -69,6 +86,14 @@ export const ClientWrapper = ({ children }: PropsWithChildren) => {
             <>
               <Button onClick={handleLogout}>로그아웃</Button>
               <Button href={mypage}>내 정보</Button>
+              <form onSubmit={handleSearch}>
+                <input
+                  className="focus:outline-none focus:ring-0 rounded-md p-2"
+                  name="keyword"
+                  required
+                />
+                <Button type="submit">검색</Button>
+              </form>
             </>
           ) : (
             <Button onClick={handleLogin}>로그인</Button>

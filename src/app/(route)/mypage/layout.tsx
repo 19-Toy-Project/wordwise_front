@@ -2,6 +2,7 @@
 import { Button } from "@/components/buttons";
 import { mypage, mystudy, mywish } from "@/constants/pathname";
 import { useCookie } from "@/contexts/cookie.context";
+import { useToast } from "@/contexts/toast.context";
 import { UserType } from "@/types/type";
 import { fetchWithAuth } from "@/utils/fetchWithAuth";
 import { usePathname } from "next/navigation";
@@ -16,6 +17,7 @@ const ranks: Record<string, string> = {
 export default function MyPageLayout({ children }: PropsWithChildren) {
   const pathname = usePathname();
   const { cookie } = useCookie();
+  const { open } = useToast();
   const [user, setUser] = useState<UserType | null>(null);
 
   useEffect(() => {
@@ -36,7 +38,7 @@ export default function MyPageLayout({ children }: PropsWithChildren) {
   }, [cookie]);
 
   const handleDelete = () => {
-    alert("준비중입니다");
+    open({ label: "준비중입니다" });
   };
   return (
     <div className="wrapper flex flex-col md:flex-row gap-5">
