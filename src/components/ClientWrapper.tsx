@@ -5,7 +5,7 @@ import { useToast } from "@/contexts/toast.context";
 import useCustomSearchParams from "@/hooks/useCustomSearchParams";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { FormEvent, PropsWithChildren, useState } from "react";
+import { FormEvent, PropsWithChildren, Suspense, useState } from "react";
 import { IoMenu } from "react-icons/io5";
 import { Button, IconButton } from "./buttons";
 
@@ -57,7 +57,7 @@ export const ClientWrapper = ({ children }: PropsWithChildren) => {
     router.push(`/search?keyword=${keyword}`);
   };
   return (
-    <>
+    <Suspense>
       <div className="sticky top-0 z-20 bg-background w-full h-20 px-5 flex items-center justify-between sm:gap-5">
         {/* 로고 */}
         <IconButton
@@ -102,6 +102,6 @@ export const ClientWrapper = ({ children }: PropsWithChildren) => {
       </div>
 
       {children}
-    </>
+    </Suspense>
   );
 };
