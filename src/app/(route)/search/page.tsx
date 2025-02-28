@@ -14,7 +14,7 @@ export default function SearchPage() {
   const { data: sentences = [] } = useSearchQuery({ page, size: 10, keyword });
 
   return (
-    <Suspense>
+    <Suspense fallback={<div>loading...</div>}>
       <div className="wrapper">
         <p>검색한 결과가 {sentences?.data?.content.length}건 있습니다.</p>
         <div className="flex flex-col gap-3">

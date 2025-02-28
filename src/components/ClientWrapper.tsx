@@ -57,7 +57,7 @@ export const ClientWrapper = ({ children }: PropsWithChildren) => {
     router.push(`/search?keyword=${keyword}`);
   };
   return (
-    <Suspense>
+    <Suspense fallback={<div>loading...</div>}>
       <div className="sticky top-0 z-20 bg-background w-full h-20 px-5 flex items-center justify-between sm:gap-5">
         {/* 로고 */}
         <IconButton
