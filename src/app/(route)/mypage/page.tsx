@@ -5,6 +5,7 @@ import { cookies } from "next/headers";
 export default async function UserPage() {
   const cookieStore = await cookies();
   const accessToken = cookieStore.get("accessToken")?.value || null;
+
   const response = await fetchWithAuth(
     `${process.env.NEXT_PUBLIC_SERVICE_URL}/api/v2/users/learned-sentences/count`,
     {

@@ -1,5 +1,5 @@
 "use client";
-import { about, home, mypage } from "@/constants/pathname";
+import { about, auth, home, mypage } from "@/constants/pathname";
 import { useCookie } from "@/contexts/cookie.context";
 import { useToast } from "@/contexts/toast.context";
 import useCustomSearchParams from "@/hooks/useCustomSearchParams";
@@ -8,9 +8,6 @@ import { useRouter } from "next/navigation";
 import { FormEvent, PropsWithChildren, Suspense, useState } from "react";
 import { IoMenu } from "react-icons/io5";
 import { Button, IconButton } from "./buttons";
-
-const KAKAO_LOGIN_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.NEXT_PUBLIC_KAKAO_CLIENT_ID}&redirect_uri=	
-${process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URL}&response_type=code`;
 
 export const ClientWrapper = ({ children }: PropsWithChildren) => {
   return (
@@ -28,9 +25,6 @@ const ClientWrapperComponent = () => {
   const router = useRouter();
   const [menuOpen, setMenuOpen] = useState<boolean>(false); // 메뉴 상태 관리
 
-  const handleLogin = () => {
-    router.push(KAKAO_LOGIN_URL);
-  };
   const handleLogout = async () => {
     try {
       // await fetch(`${process.env.NEXT_PUBLIC_SERVICE_URL}/api/v1/auth/logout`, {
@@ -104,7 +98,7 @@ const ClientWrapperComponent = () => {
             </form>
           </>
         ) : (
-          <Button onClick={handleLogin}>로그인</Button>
+          <Button href={auth}>로그인</Button>
         )}
       </div>
     </div>

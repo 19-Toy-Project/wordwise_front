@@ -3,6 +3,7 @@ export const mypage = "/mypage"; // 내 정보
 export const home = "/"; // 메인 홈
 export const levels = "/levels"; // 레벨 선택
 export const words = "/words"; // 단어 리스트
+export const auth = "/auth"; //로그인
 
 export const beginner = levels + "/BEGINNER"; // 초급
 export const intermediate = levels + "/INTERMEDIATE"; // 중급

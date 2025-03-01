@@ -4,7 +4,7 @@ import useCustomSearchParams from "@/hooks/useCustomSearchParams";
 import { jwtDecode } from "jwt-decode";
 import { useRouter } from "next/navigation";
 import { Suspense, useEffect } from "react";
-export default function LoginPage() {
+export default function KAKAOLoginPage() {
   return (
     <Suspense>
       <LoginComponent />

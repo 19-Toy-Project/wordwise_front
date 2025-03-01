@@ -10,13 +10,12 @@ case4 : access token과 refresh token 모두가 유효한 경우 → 정상 처
 참고 : https://velog.io/@clydehan/Next.js%EB%A1%9C-Access-Token-%EB%A7%8C%EB%A3%8C-%ED%99%95%EC%9D%B8-%EB%B0%8F-%EC%9E%AC%EB%B0%9C%EA%B8%89-%EB%B0%9B%EA%B8%B0
  */
 export default async function middleware(request: NextRequest) {
-
   const accessToken = request.cookies.get("accessToken")?.value; //15분
   const refreshToken = request.cookies.get("refreshToken")?.value; //7일
 
   if (!accessToken && !refreshToken) {
     //case1: accesstoken 없고 refreshtoken도 없는 경우
-    return NextResponse.redirect(new URL("/", request.url));
+    return NextResponse.redirect(new URL("/auth", request.url));
   }
 
   const { isRefreshTokenValid } = isValidToken({
@@ -26,7 +25,7 @@ export default async function middleware(request: NextRequest) {
 
   if (!isRefreshTokenValid) {
     // case3 ?: refreshtoken 유효하지 않는 경우
-    return NextResponse.redirect(new URL("/", request.url));
+    return NextResponse.redirect(new URL("/auth", request.url));
   }
   // if (!isAccessTokenValid) {
   //   // case2: accesstoken은 무효하지만 refreshtoken은 유효한 경우 accesstoken 재발급
@@ -58,5 +57,6 @@ export const config = {
     "/levels/:path*",
     "/words",
     "/words/:path*",
+    "/search",
   ],
 }; // 이 미들웨어를 '/auth' 경로에서만 실행
