@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
-import isValidToken from "@/utils/is-valid-token";
+//import isValidToken from "@/utils/is-valid-token";
 /**
 case1 : access token과 refresh token 모두가 만료된 경우 → 에러 발생 (재 로그인하여 둘다 새로 발급)
 case2 : access token은 만료됐지만, refresh token은 유효한 경우 →  refresh token을 검증하여 access token 재발급
@@ -13,20 +13,21 @@ export default async function middleware(request: NextRequest) {
   const accessToken = request.cookies.get("accessToken")?.value; //15분
   const refreshToken = request.cookies.get("refreshToken")?.value; //7일
 
-  if (!accessToken && !refreshToken) {
+  console.log(accessToken, refreshToken);
+  if (!refreshToken) {
     //case1: accesstoken 없고 refreshtoken도 없는 경우
     return NextResponse.redirect(new URL("/auth", request.url));
   }
 
-  const { isRefreshTokenValid } = isValidToken({
-    accesstoken: accessToken,
-    refreshtoken: refreshToken,
-  });
+  // const { isRefreshTokenValid } = isValidToken({
+  //   accesstoken: accessToken,
+  //   refreshtoken: refreshToken,
+  // });
 
-  if (!isRefreshTokenValid) {
-    // case3 ?: refreshtoken 유효하지 않는 경우
-    return NextResponse.redirect(new URL("/auth", request.url));
-  }
+  // if (!isRefreshTokenValid) {
+  //   // case3 ?: refreshtoken 유효하지 않는 경우
+  //   return NextResponse.redirect(new URL("/auth", request.url));
+  // }
   // if (!isAccessTokenValid) {
   //   // case2: accesstoken은 무효하지만 refreshtoken은 유효한 경우 accesstoken 재발급
   //   const response2 = await refreshAccessToken(accessToken ?? "");
