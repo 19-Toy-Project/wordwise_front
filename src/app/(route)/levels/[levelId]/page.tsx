@@ -18,7 +18,7 @@ export default function LevelPage() {
   const [page, setPage] = useState<number>(1);
   const size = 10;
   const { data: words } = useWordsQuery({ levelId, page, size });
-
+  if (!words) return <div>로그인이 필요한 서비스입니다.</div>;
   return (
     <>
       <h2>{levels[levelId]}</h2>

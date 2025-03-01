@@ -28,6 +28,7 @@ export default function WordPage() {
       open({ label: "로그인이 필요한 서비스입니다" });
     }
   };
+  if (!word) return <div>로그인이 필요한 서비스입니다.</div>;
   return (
     <div className="wrapper">
       <div className="mb-4 text-center">
