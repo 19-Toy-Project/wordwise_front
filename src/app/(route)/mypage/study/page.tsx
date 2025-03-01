@@ -1,25 +1,33 @@
+"use client";
+import { useCookie } from "@/contexts/cookie.context";
 import { fetchWithAuth } from "@/utils/fetchWithAuth";
-import { cookies } from "next/headers";
+import { useEffect, useState } from "react";
 import Chart from "./_components/Chart";
 
-export default async function StudyPage() {
-  const cookieStore = await cookies();
-  const accessToken = cookieStore.get("accessToken")?.value || null;
+export default function StudyPage() {
+  const { cookie } = useCookie();
+  const [studied, setStudied] = useState([]);
+  useEffect(() => {
+    const fetchUser = async () => {
+      const response = await fetchWithAuth(
+        `${process.env.NEXT_PUBLIC_SERVICE_URL}/api/v1/users/score`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${cookie}`,
+          },
+        }
+      );
+      const { data: study } = await response.json();
+      setStudied(study.content);
+    };
+    fetchUser();
+  }, [cookie]);
 
-  const response = await fetchWithAuth(
-    `${process.env.NEXT_PUBLIC_SERVICE_URL}/api/v1/users/score`,
-    {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    }
-  );
-  const { data: study } = await response.json();
   return (
     <div>
       내가 학습한 문장 조회 차트
-      <Chart studies={study.content.length > 0 ? study.content : []} />
+      <Chart studies={studied.length > 0 ? studied : []} />
     </div>
   );
 }

@@ -1,37 +1,43 @@
+"use client";
 import { Button } from "@/components/buttons";
+import { useCookie } from "@/contexts/cookie.context";
 import { SentenceType } from "@/types/type";
 import { fetchWithAuth } from "@/utils/fetchWithAuth";
-import { cookies } from "next/headers";
+import { useEffect, useState } from "react";
 
-export default async function WishPage() {
-  const cookieStore = await cookies();
-  const accessToken = cookieStore.get("accessToken")?.value || null;
-  const response = await fetchWithAuth(
-    `${process.env.NEXT_PUBLIC_SERVICE_URL}/api/v1/users/wish/sentence`,
-    {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    }
-  );
-  const { data: wishSentence } = await response.json();
+export default function WishPage() {
+  const { cookie } = useCookie();
+  const [wishSentence, setStudied] = useState([]);
+  useEffect(() => {
+    const fetchUser = async () => {
+      const response = await fetchWithAuth(
+        `${process.env.NEXT_PUBLIC_SERVICE_URL}/api/v1/users/wish/sentence`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${cookie}`,
+          },
+        }
+      );
+      const { data: wishSentence } = await response.json();
+      setStudied(wishSentence.content);
+    };
+    fetchUser();
+  }, [cookie]);
 
-  if (wishSentence.content.length > 0) {
+  if (wishSentence.length > 0) {
     return (
       <div className="flex flex-col">
-        {wishSentence.content.map(
-          (sentence: SentenceType & { wordId: number }) => (
-            <Button
-              intent="white"
-              href={`/words/${sentence.wordId}`}
-              key={sentence.sentenceId}
-            >
-              <p>{sentence.sentence}</p>
-              <p>{sentence.sentence_kr}</p>
-            </Button>
-          )
-        )}
+        {wishSentence.map((sentence: SentenceType & { wordId: number }) => (
+          <Button
+            intent="white"
+            href={`/words/${sentence.wordId}`}
+            key={sentence.sentenceId}
+          >
+            <p>{sentence.sentence}</p>
+            <p>{sentence.sentence_kr}</p>
+          </Button>
+        ))}
       </div>
     );
   } else {

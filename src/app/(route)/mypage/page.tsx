@@ -1,3 +1,4 @@
+"use client";
 import Calender from "@/components/calender/calender";
 import { useCookie } from "@/contexts/cookie.context";
 import { fetchWithAuth } from "@/utils/fetchWithAuth";
